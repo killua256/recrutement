@@ -1,6 +1,5 @@
 package com.recrutement.modules.user.dto;
 
-import java.time.Instant;
 import java.util.Date;
 
 import com.recrutement.modules.base.BaseDto;
@@ -20,8 +19,9 @@ public class UserDto extends BaseDto {
 	private String email;
 	private RoleDto role;
 	private Boolean activated;
-	private Instant activatedAt;
+	private Date activatedAt;
 	private String phone;
+	private Boolean MFAEnabled;
 	private Date lastLoggedInDate;
 
 }

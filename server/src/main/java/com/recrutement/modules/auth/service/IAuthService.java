@@ -1,5 +1,6 @@
 package com.recrutement.modules.auth.service;
 
+import com.recrutement.exceptions.DeactivatedAccountException;
 import com.recrutement.exceptions.TokenExpiredException;
 import com.recrutement.exceptions.UserAlreadyExistsException;
 import com.recrutement.exceptions.UserNotFoundException;
@@ -17,6 +18,6 @@ public interface IAuthService {
     @Transactional
     void creatAdmin(SignupRequest request) throws UserAlreadyExistsException;
 
-    AuthResponse signin(AuthRequest authRequest) throws UserNotFoundException;
+    AuthResponse signin(AuthRequest authRequest) throws UserNotFoundException, DeactivatedAccountException;
     AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException;
 }

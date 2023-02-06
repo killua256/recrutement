@@ -122,4 +122,13 @@ public class ExternalConfigs {
     public String getEmailProtocol() {
         return configuration.getString("spring.mail.transport.protocol");
     }
+    public Integer getMFATokenExpiration(){
+        return configuration.getInt("email.token.mfa");
+    }
+    public Integer getAccountActivationTokenExpiration(){
+        return configuration.getInt("email.token.account.activation");
+    }
+    public Integer getForgotPasswordTokenExpiration(){
+        return configuration.getInt("email.token.forgot.password");
+    }
 }

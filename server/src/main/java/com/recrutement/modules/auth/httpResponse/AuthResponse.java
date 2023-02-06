@@ -13,4 +13,6 @@ public class AuthResponse {
     private JwtResponse accessToken;
     private JwtResponse refreshToken;
     private String authority;
+    private Boolean isMFA;
+    private Long MFAId;
 }

@@ -5,7 +5,6 @@ import com.recrutement.exceptions.UserAlreadyExistsException;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.auth.service.IAuthService;
 import com.recrutement.modules.role.IRoleService;
-import com.recrutement.modules.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 @AllArgsConstructor
@@ -57,6 +58,8 @@ public class DataLoader implements ApplicationRunner {
         dto.setUsername("admin");
         dto.setEmail("admin@mail.com");
         dto.setPassword("password");
+        dto.setActivated(true);
+        dto.setActivatedAt(new Date());
         authService.creatAdmin(dto);
     }
 

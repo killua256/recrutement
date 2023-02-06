@@ -1,11 +1,16 @@
 package com.recrutement.modules.auth.service;
 
+import com.recrutement.exceptions.DeactivatedAccountException;
 import com.recrutement.exceptions.TokenExpiredException;
 import com.recrutement.exceptions.UserAlreadyExistsException;
 import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.role.IRoleService;
+import com.recrutement.modules.verifToken.VerifToken;
+import com.recrutement.modules.verifToken.VerifTokenType;
+import com.recrutement.modules.verifToken.service.IVerifTokenService;
 import com.recrutement.utils.UtilsService;
+import com.recrutement.utils.email.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +30,8 @@ import com.recrutement.modules.user.service.IUserService;
 import com.recrutement.security.jwt.JwtProvider;
 import com.recrutement.security.jwt.JwtResponse;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,6 +53,10 @@ public class AuthService implements IAuthService {
     private UtilsService utilsService;
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    private IVerifTokenService verifTokenService;
+    @Autowired
+    private IEmailService emailService;
     @Autowired
     private ExternalConfigs externalConfigs;
 
@@ -82,7 +93,7 @@ public class AuthService implements IAuthService {
 
 
     @Override
-    public AuthResponse signin(AuthRequest authRequest) throws UserNotFoundException {
+    public AuthResponse signin(AuthRequest authRequest) throws UserNotFoundException, DeactivatedAccountException {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
@@ -92,7 +103,17 @@ public class AuthService implements IAuthService {
             throw new UserNotFoundException("Account not found");
         }
         User user = optionalUser.get();
-        return authenticate(user);
+        if(!user.getActivated()){
+            throw new DeactivatedAccountException("Please activate your account to be able to sign in");
+        }
+        if(user.getMFAEnabled()){
+            AuthResponse response = new AuthResponse();
+            response.setIsMFA(true);
+            response.setMFAId(sendMFAEmail(user));
+            return response;
+        } else {
+            return authenticate(user);
+        }
     }
 
     @Override
@@ -105,7 +126,16 @@ public class AuthService implements IAuthService {
         UserDto dto = userMapper.toUserDto(user);
         JwtResponse accessToken = jwtProvider.generateJwtToken(user, false);
         JwtResponse refreshToken = jwtProvider.generateJwtToken(user, true);
-        return new AuthResponse(dto, accessToken, refreshToken, user.getRole().getName());
+        return new AuthResponse(dto, accessToken, refreshToken, user.getRole().getName(), false, null);
+    }
+
+    private Long sendMFAEmail(User user){
+        VerifToken verifToken = verifTokenService.create(VerifTokenType.MFAAUTH, user);
+        Map<String, String> model = new HashMap<>();
+        model.put("username", user.getUsername());
+        model.put("mfa", verifToken.getValue());
+        emailService.sendOtpEmail(user.getEmail(), model);
+        return verifToken.getId();
     }
 
 }

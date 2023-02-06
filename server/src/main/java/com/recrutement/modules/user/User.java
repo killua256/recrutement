@@ -12,7 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -39,6 +41,14 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+    @Column(name = "is_activated", columnDefinition = "boolean default false")
+    private Boolean activated = false;
+    @Column(name = "activated_at")
+    private Date activatedAt;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "mfa_enabled", columnDefinition = "boolean default false")
+    private Boolean MFAEnabled = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
