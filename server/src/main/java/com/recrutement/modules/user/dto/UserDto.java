@@ -1,0 +1,27 @@
+package com.recrutement.modules.user.dto;
+
+import java.time.Instant;
+import java.util.Date;
+
+import com.recrutement.modules.base.BaseDto;
+import com.recrutement.modules.role.RoleDto;
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDto extends BaseDto {
+
+	private String firstname;
+	private String lastname;
+	private String username;
+	private String displayName;
+	private String email;
+	private RoleDto role;
+	private Boolean activated;
+	private Instant activatedAt;
+	private String phone;
+	private Date lastLoggedInDate;
+
+}
