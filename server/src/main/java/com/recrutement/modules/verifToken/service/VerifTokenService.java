@@ -3,7 +3,6 @@ package com.recrutement.modules.verifToken.service;
 import com.querydsl.core.BooleanBuilder;
 import com.recrutement.exceptions.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import com.recrutement.utils.DateHandler;
 import com.recrutement.utils.PasswordHandler;
@@ -43,8 +42,9 @@ public class VerifTokenService implements IVerifTokenService {
         BooleanBuilder where = new BooleanBuilder();
         where.and(qVerifToken.type.eq(type));
         where.and(qVerifToken.value.eq(token));
-        Optional<VerifToken> verifTokenOptional = verifTokenRepository.findOne(where.getValue());
-        if(!verifTokenOptional.isPresent()){
+        Optional<VerifToken> verifTokenOptional =
+                verifTokenRepository.findVerifTokenByTypeAndValue(type, token); //.findOne(where.getValue());
+        if(verifTokenOptional.isEmpty()){
             throw new DataNotFoundException("Token not found");
         }
         VerifToken verifToken = verifTokenOptional.get();

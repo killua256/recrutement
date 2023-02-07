@@ -1,6 +1,6 @@
 package com.recrutement.modules.auth;
 
-import com.recrutement.exceptions.DeactivatedAccountException;
+import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
@@ -11,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
-import com.recrutement.exceptions.TokenExpiredException;
-import com.recrutement.exceptions.UserAlreadyExistsException;
-import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.auth.httpResponse.SignupResponse;
 import com.recrutement.modules.auth.service.IAuthService;
 import com.recrutement.modules.auth.httpRequest.AuthRequest;
@@ -53,6 +50,46 @@ public class AuthController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new ResponseEntity<>("Login failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/signin-mfa")
+    public ResponseEntity<?> authenticateMFA(
+            @RequestBody String MFAToken,
+            HttpServletResponse res
+    ) {
+        try {
+            AuthResponse authResponse = authService.MFASignin(MFAToken);
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.addCookie(accessTokenCookie(authResponse));
+            res.addCookie(refreshTokenCookie(authResponse));
+            return new ResponseEntity<>(authResponse.getUser(), HttpStatus.OK);
+        } catch (BadCredentialsException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Please check your credentials", HttpStatus.NOT_FOUND);
+        } catch (DataNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (TokenExpiredException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Login failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/resend-code/{tokenId}")
+    public ResponseEntity<?> resendCode(@PathVariable Long tokenId) {
+        try{
+            Long authResponse = authService.resendCode(tokenId);
+            return ResponseEntity.ok(authResponse);
+        } catch (DataNotFoundException e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Not authenticated", HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Resend email code failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

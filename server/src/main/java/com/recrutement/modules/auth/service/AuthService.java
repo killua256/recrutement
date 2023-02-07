@@ -1,9 +1,6 @@
 package com.recrutement.modules.auth.service;
 
-import com.recrutement.exceptions.DeactivatedAccountException;
-import com.recrutement.exceptions.TokenExpiredException;
-import com.recrutement.exceptions.UserAlreadyExistsException;
-import com.recrutement.exceptions.UserNotFoundException;
+import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.role.IRoleService;
 import com.recrutement.modules.verifToken.VerifToken;
@@ -94,15 +91,8 @@ public class AuthService implements IAuthService {
 
     @Override
     public AuthResponse signin(AuthRequest authRequest) throws UserNotFoundException, DeactivatedAccountException {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+        User user = getAuthUser(authRequest);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        Optional<User> optionalUser = userRepository.findByEmailOrUsername(authRequest.getUsername(), authRequest.getUsername());
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("Account not found");
-        }
-        User user = optionalUser.get();
         if(!user.getActivated()){
             throw new DeactivatedAccountException("Please activate your account to be able to sign in");
         }
@@ -115,12 +105,34 @@ public class AuthService implements IAuthService {
             return authenticate(user);
         }
     }
+    @Override
+    public AuthResponse MFASignin(String MFAToken) throws DataNotFoundException, TokenExpiredException {
+        User user = verifTokenService.verify(VerifTokenType.MFAAUTH, MFAToken.replaceAll("^\"|\"$", ""));
+        return authenticate(user);
+    }
+
+    @Override
+    public Long resendCode(Long tokenId) throws DataNotFoundException {
+        User user = verifTokenService.findUserByIdAndDelete(tokenId);
+        return sendMFAEmail(user);
+    }
 
     @Override
     public AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException {
         return authenticate(utilsService.getCurrentUser());
     }
 
+    private User getAuthUser(AuthRequest authRequest) throws UserNotFoundException {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Optional<User> optionalUser = userRepository.findByEmailOrUsername(authRequest.getUsername(), authRequest.getUsername());
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("Account not found");
+        }
+        return optionalUser.get();
+    }
 
     private AuthResponse authenticate(User user) {
         UserDto dto = userMapper.toUserDto(user);
@@ -133,8 +145,8 @@ public class AuthService implements IAuthService {
         VerifToken verifToken = verifTokenService.create(VerifTokenType.MFAAUTH, user);
         Map<String, String> model = new HashMap<>();
         model.put("username", user.getUsername());
-        model.put("mfa", verifToken.getValue());
-        emailService.sendOtpEmail(user.getEmail(), model);
+        model.put("mfaCode", verifToken.getValue());
+        emailService.sendMFAEmail(user.getEmail(), model);
         return verifToken.getId();
     }
 

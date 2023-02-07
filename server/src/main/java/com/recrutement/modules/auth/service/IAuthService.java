@@ -1,9 +1,6 @@
 package com.recrutement.modules.auth.service;
 
-import com.recrutement.exceptions.DeactivatedAccountException;
-import com.recrutement.exceptions.TokenExpiredException;
-import com.recrutement.exceptions.UserAlreadyExistsException;
-import com.recrutement.exceptions.UserNotFoundException;
+import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.AuthRequest;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.auth.httpResponse.AuthResponse;
@@ -19,5 +16,10 @@ public interface IAuthService {
     void creatAdmin(SignupRequest request) throws UserAlreadyExistsException;
 
     AuthResponse signin(AuthRequest authRequest) throws UserNotFoundException, DeactivatedAccountException;
+
+    AuthResponse MFASignin(String MFAToken) throws DataNotFoundException, TokenExpiredException;
+
+    Long resendCode(Long tokenId) throws DataNotFoundException;
+
     AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException;
 }

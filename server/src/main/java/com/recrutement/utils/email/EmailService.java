@@ -45,22 +45,22 @@ public class EmailService implements IEmailService {
                 externalConfigs.getAccountActivationTokenExpiration()
         ));
 
-        String body = geContentFromTemplate(model, "account-activation.ftlh");
+        String body = geContentFromTemplate(model, "account-activation.ftl");
         return emailConfig.send(emailData, body);
     }
     @Override
     @Async
-    public void sendOtpEmail(String email, Map<String, String> model) {
-        System.out.println("sendActivationEmail......................");
+    public void sendMFAEmail(String email, Map<String, String> model) {
+        System.out.println("send mfa email......................");
         System.out.println("email--> " + email);
         EmailData emailData = new EmailData();
-        emailData.setSubject("SignIn OTP");
+        emailData.setSubject("SignIn code");
         emailData.setTo(email);
         model.put("expiration", formatExpirationValue(
                 externalConfigs.getMFATokenExpiration()
         ));
 
-        String body = geContentFromTemplate(model, "auth-otp.ftlh");
+        String body = geContentFromTemplate(model, "auth-mfa.ftl");
         emailConfig.send(emailData, body);
     }
     @Override
@@ -74,7 +74,7 @@ public class EmailService implements IEmailService {
                     externalConfigs.getForgotPasswordTokenExpiration()
             ));
 
-            String body = geContentFromTemplate(model, "forgot-password.ftlh");
+            String body = geContentFromTemplate(model, "forgot-password.ftl");
             emailConfig.send(emailData, body);
             System.out.println("success----- ");
             return true;
