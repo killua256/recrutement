@@ -6,6 +6,7 @@ import { getFile } from '@utils/fileHandler';
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, NavLink } from 'react-router-dom';
+import NavItem from '../nav-item/NavItem';
 
 const UserNavbar = () => {
     const { user, logout } = useContext(AuthContext)
@@ -43,15 +44,10 @@ const UserNavbar = () => {
     }
     return (
         <>
-            <ul className='hidden md:flex items-center justify-center h-full'>
+            <ul className='flex items-center justify-center gap-4 sm:gap-0 h-full'>
                 {
                     Config.getMenu().map((menu: any) => (
-                        <NavLink className="h-full"
-                            key={menu.label} to={menu.url}>
-                            <li className="px-2 h-full cursor-pointer rounded-sm flex items-center justify-between hover:bg-gray-200">
-                                <span className="mx-4"> {t(`titles.${menu.label}`)} </span>
-                            </li>
-                        </NavLink>
+                        <NavItem key={menu.label} menu={menu} />
                     ))
                 }
             </ul>

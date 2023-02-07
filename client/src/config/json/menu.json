@@ -1,27 +1,26 @@
 [
     {
-        "label": "settings",
-        "url": "/settings/admin",
-        "roles": ["ADMIN"]
+        "label": "home",
+        "url": "/",
+        "icon": "home"
     },
     {
-        "label": "accounts",
-        "url": "/accounts",
-        "roles": ["ADMIN"]
+        "label": "network",
+        "url": "/network",
+        "icon": "network"
+    },{
+        "label": "jobs",
+        "url": "/jobs",
+        "icon": "jobs"
     },
     {
-        "label": "groups",
-        "url": "/settings/groups",
-        "roles": ["ADMIN"]
+        "label": "messages",
+        "url": "/messages",
+        "icon": "message"
     },
     {
-        "label": "categories",
-        "url": "/settings/categories",
-        "roles": ["ADMIN"]
-    },
-    {
-        "label": "calendar",
-        "url": "/calendar",
-        "roles": ["ADMIN", "USER"]
+        "label": "notifications",
+        "url": "/notifications",
+        "icon": "notification"
     }
 ]
