@@ -1,33 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { Suspense } from 'react'
+import 'antd/dist/reset.css';
 import './App.css'
+import Layout from './layout/Layout';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import appRoutes from './routes';
+import { GuestRoute, ProtectedRoute } from '@shared/guards';
+import { PageLoading } from '@shared/components';
+import { AppContext } from './contexts';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <BrowserRouter>
+      <AppContext>
+        <Layout>
+          <Routes>
+            {appRoutes.map((route, i) => {
+              if (route.status == 'PROTECTED') {
+                return (
+                  <Route key={i} path={route.path} element={
+                    <Suspense fallback={(<PageLoading />)}>
+                      <ProtectedRoute roles={route.roles}>
+                        <route.component />
+                      </ProtectedRoute>
+                    </Suspense>
+                  } />
+                )
+              } else if (route.status == 'GUEST') {
+                return (
+                  <Route key={i} path={route.path} element={
+                    <Suspense fallback={(<PageLoading />)}>
+                      <GuestRoute>
+                        <route.component />
+                      </GuestRoute>
+                    </Suspense>
+                  } />
+                )
+              } else {
+                return (
+                  <Route key={i} path={route.path} element={
+                    <Suspense fallback={(<PageLoading />)}>
+                      <route.component />
+                    </Suspense>
+                  } />
+                )
+              }
+            })}
+          </Routes>
+        </Layout>
+      </AppContext>
+    </BrowserRouter>
   )
 }
 

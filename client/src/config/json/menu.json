@@ -1,0 +1,27 @@
+[
+    {
+        "label": "settings",
+        "url": "/settings/admin",
+        "roles": ["ADMIN"]
+    },
+    {
+        "label": "accounts",
+        "url": "/accounts",
+        "roles": ["ADMIN"]
+    },
+    {
+        "label": "groups",
+        "url": "/settings/groups",
+        "roles": ["ADMIN"]
+    },
+    {
+        "label": "categories",
+        "url": "/settings/categories",
+        "roles": ["ADMIN"]
+    },
+    {
+        "label": "calendar",
+        "url": "/calendar",
+        "roles": ["ADMIN", "USER"]
+    }
+]
