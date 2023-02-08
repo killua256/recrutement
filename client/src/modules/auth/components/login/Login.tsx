@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@contexts/auth/AuthContext';
-import authService from './auth.service';
+import authService from '../../auth.service';
 import { SettingsContext } from '@contexts/settings/SettingsContext';
 import { User } from '@shared/types';
 
@@ -46,14 +46,15 @@ const Login = () => {
     }
 
     return (
-        <div className="bg-primary-50 h-full flex justify-center items-center pb-20">
-            <div className="max-w-md w-full mx-auto bg-white px-8 py-8 rounded-lg shadow-lg">
-                <div className="max-w-md w-full mx-auto flex flex-col items-center gap-4 py-2">
+        <div className="bg-slate-100 h-full flex flex-col gap-2 justify-center items-center pb-20">
+            <div className="max-w-md w-full mx-auto flex flex-col items-center gap-4 py-2">
                     {/* <img src={appImage(settings?.logo!)} className="w-32 text-center" /> */}
                     <div className="text-2xl font-bold text-gray-800 text-center">
-                        {settings?.name} | Login
+                        SignIn
                     </div>
                 </div>
+            <div className="max-w-md w-full mx-auto bg-white px-8 py-8 rounded-lg shadow-lg">
+                
                 <form action="" className="space-y-6" onSubmit={onSubmit}>
                     <div>
                         <label className="text-sm font-bold text-gray-600 block">
@@ -79,7 +80,7 @@ const Login = () => {
                     <div>
                         <button type="submit" disabled={loading} className={`w-full py-2 px-4 bg-primary-500 hover:bg-primary-600 
                         rounded-md text-white text-sm`}>
-                            {loading ? 'Loading...' : 'Login'}
+                            {loading ? 'Loading...' : 'SignIn'}
                         </button>
                     </div>
                 </form>

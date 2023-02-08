@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-.svg-secondary{
-  filter: brightness(0) saturate(100%) invert(48%) sepia(2%) saturate(190%) hue-rotate(30deg) brightness(101%) contrast(94%)!important;
+#main{
+  height: calc(100vh - 4rem)!important;
+}
+
+.svg-secondary {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(2%) saturate(190%) hue-rotate(30deg) brightness(101%) contrast(94%) !important;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: lightgray transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+  border-radius: 4px;
 }

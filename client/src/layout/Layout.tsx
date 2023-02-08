@@ -35,7 +35,7 @@ const Layout = ({ children }: any) => {
                 ) : null
             }
 
-            <main className='bg-slate-50 fixed w-full h-full overflow-auto'>
+            <main id='main' className='bg-slate-50 fixed w-full overflow-auto'>
                 {children}
             </main>
         </>

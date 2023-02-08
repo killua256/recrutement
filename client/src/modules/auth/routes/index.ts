@@ -1,6 +1,6 @@
 import { lazy } from 'react';
-const Login = lazy(() => import('../Login'));
-const Signup = lazy(() => import('../signup/Signup'));
+const Login = lazy(() => import('../components/login/Login'));
+const Signup = lazy(() => import('../components/signup/Signup'));
 
 const authRoutes: any[] = [
     {

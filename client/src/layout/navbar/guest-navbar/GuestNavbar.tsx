@@ -4,7 +4,7 @@ import React from 'react'
 const GuestNavbar = () => {
     return (
         <div className='flex items-center gap-4'>
-            <AppLink to='/login'>
+            <AppLink to='/signup'>
                 Signup
             </AppLink>
             <div className='-ml-3 w-[1px] h-10 bg-gray-600'></div>
