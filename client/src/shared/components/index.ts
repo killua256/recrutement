@@ -2,6 +2,7 @@ import AppLink from "./AppLink";
 import Avatar from "./Avatar";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
+import Language from "./Language";
 import PageLoading from "./PageLoading";
 
 export {
@@ -9,5 +10,6 @@ export {
     Dropdown,
     AppLink,
     PageLoading,
-    Avatar
+    Avatar,
+    Language
 }

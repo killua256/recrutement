@@ -7,6 +7,7 @@ import appRoutes from './routes';
 import { GuestRoute, ProtectedRoute } from '@shared/guards';
 import { PageLoading } from '@shared/components';
 import { AppContext } from './contexts';
+import "./i18n/i18n";
 
 function App() {
 

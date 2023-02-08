@@ -1,6 +1,6 @@
 import { Config } from '@config/Config';
 import { AuthContext } from '@contexts/index';
-import { Avatar, Button, Dropdown } from '@shared/components';
+import { Avatar, Button, Dropdown, Language } from '@shared/components';
 import { DropdownItem, User } from '@shared/types';
 import { getFile } from '@utils/fileHandler';
 import React, { useContext } from 'react'
@@ -44,7 +44,7 @@ const UserNavbar = () => {
     }
     return (
         <>
-            <ul className='flex items-center justify-center gap-4 sm:gap-0 h-full'>
+            <ul className='hidden xs:flex items-center justify-center gap-4 sm:gap-0 h-full'>
                 {
                     Config.getMenu().map((menu: any) => (
                         <NavItem key={menu.label} menu={menu} />
@@ -52,21 +52,14 @@ const UserNavbar = () => {
                 }
             </ul>
             <div className='flex items-center gap-4'>
-                {
-                    user ? (
-                        <Dropdown trigger={(
-                            <Avatar user className="h-10 w-h-10 rounded-full"
-                                src={getFile('users', user?.imagePath!)}
-                                alt={user?.displayName} />
-                        )}
-                            items={dropdownItems(user!)}
-                        />
-                    ) : (
-                        <Button color='primary' onClick={() => navigate('/login')}>
-                            Login
-                        </Button>
-                    )
-                }
+                <Language />
+                <Dropdown trigger={(
+                    <Avatar user className="h-10 w-10 rounded-full"
+                        src={getFile('users', user?.imagePath!)}
+                        alt={user?.displayName} />
+                )}
+                    items={dropdownItems(user!)}
+                />
             </div>
         </>
     )
