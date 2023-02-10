@@ -14,12 +14,36 @@ class AuthService extends BaseService {
         return `${this.SRC_URL}${apiUrl}`
     }
 
-    authenticate(data?: any){
-        return this.httpClient<User | number>(this.httpUrl('signin'), "POST", data);
+    authenticate(data: any){
+        return this.httpClient<User | number>({
+            apiUrl: this.httpUrl('signin'),
+            method: "POST",
+            body: data
+        });
     }
 
-    signup(data?: any){
-        return this.httpClient(this.httpUrl('signup'), 'POST', data);
+    mfaAuth(data: string){
+        return this.httpClient<User>({
+            apiUrl: this.httpUrl('signin-mfa'),
+            method: "POST",
+            body: data
+        });
+    }
+
+    resendMfaCode(id: number){
+        return this.httpClient<number>({
+            apiUrl: this.httpUrl('resend-code/'),
+            method: "POST",
+            params: [id]
+        });
+    }
+
+    signup(data: any){
+        return this.httpClient<User>({
+            apiUrl: this.httpUrl('signup'),
+            method: "POST",
+            body: data
+        });
     }
 
 }

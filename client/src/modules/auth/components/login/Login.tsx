@@ -4,6 +4,8 @@ import { AuthContext } from '@contexts/auth/AuthContext';
 import authService from '../../auth.service';
 import { SettingsContext } from '@contexts/settings/SettingsContext';
 import { User } from '@shared/types';
+import { toastError, toastSuccess } from '@utils/toast';
+import storageService from '@shared/services/storage.service';
 
 const Login = () => {
     const { login } = useContext(AuthContext)
@@ -24,7 +26,9 @@ const Login = () => {
 
     const onLogin = (data: User | number) => {
         if(typeof data == 'number'){
-            //REDIRECT TO LOGIN CODE PAGE
+            storageService.setLoginCode(data)
+            toastSuccess("Your login code was sent to your email")
+            navigate('/login-mfa')
         } else {
             console.log(data)
             login(data)
@@ -32,17 +36,16 @@ const Login = () => {
         }
     }
 
-    const onSubmit = (e: any) => {
+    const onSubmit = async (e: any) => {
         e.preventDefault();
         setLoading(true)
-        authService.authenticate(loginInfo).then(
-            res => onLogin(res.data),
-            error => {
-                console.log("ERROR", error.response.data);
-            }
-        ).finally(() => {
-            setLoading(false)
-        })
+        const {response, success, error} = await authService.authenticate(loginInfo);
+        if(success && response){
+            onLogin(response)
+        } else {
+            toastError(error?.message)
+        }
+        setLoading(false)
     }
 
     return (

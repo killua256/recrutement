@@ -8,11 +8,13 @@ import { GuestRoute, ProtectedRoute } from '@shared/guards';
 import { PageLoading } from '@shared/components';
 import { AppContext } from './contexts';
 import "./i18n/i18n";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
   return (
     <BrowserRouter>
+    <Toaster />
       <AppContext>
         <Layout>
           <Routes>
