@@ -5,6 +5,8 @@ import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -23,6 +25,7 @@ import java.util.Map;
 @Service
 public class EmailService implements IEmailService {
 
+    private final Logger logger = LoggerFactory.getLogger(EmailService.class);
     @Autowired
     public JavaMailSender emailSender;
     @Autowired
@@ -35,34 +38,45 @@ public class EmailService implements IEmailService {
     private ExternalConfigs externalConfigs;
 
     @Override
-    public Boolean sendActivationEmail(String email, Map<String, String> model) {
-        System.out.println("sendActivationEmail......................");
-        System.out.println("email--> " + email);
-        EmailData emailData = new EmailData();
-        emailData.setSubject("Activate Your Account");
-        emailData.setTo(email);
-        model.put("expiration", formatExpirationValue(
-                externalConfigs.getAccountActivationTokenExpiration()
-        ));
+    @Async
+    public void sendActivationEmail(String email, Map<String, String> model) {
+        try {
+            System.out.println("sendActivationEmail......................");
+            System.out.println("email--> " + email);
+            EmailData emailData = new EmailData();
+            emailData.setSubject("Activate Your Account");
+            emailData.setTo(email);
+            model.put("expiration", formatExpirationValue(
+                    externalConfigs.getAccountActivationTokenExpiration()
+            ));
 
-        String body = geContentFromTemplate(model, "account-activation.ftl");
-        return emailConfig.send(emailData, body);
+            String body = geContentFromTemplate(model, "account-activation.ftl");
+            emailConfig.send(emailData, body);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
+
     @Override
     @Async
     public void sendMFAEmail(String email, Map<String, String> model) {
-        System.out.println("send mfa email......................");
-        System.out.println("email--> " + email);
-        EmailData emailData = new EmailData();
-        emailData.setSubject("SignIn code");
-        emailData.setTo(email);
-        model.put("expiration", formatExpirationValue(
-                externalConfigs.getMFATokenExpiration()
-        ));
+        try {
+            System.out.println("send mfa email......................");
+            System.out.println("email--> " + email);
+            EmailData emailData = new EmailData();
+            emailData.setSubject("SignIn code");
+            emailData.setTo(email);
+            model.put("expiration", formatExpirationValue(
+                    externalConfigs.getMFATokenExpiration()
+            ));
 
-        String body = geContentFromTemplate(model, "auth-mfa.ftl");
-        emailConfig.send(emailData, body);
+            String body = geContentFromTemplate(model, "auth-mfa.ftl");
+            emailConfig.send(emailData, body);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
+
     @Override
     public Boolean sendForgotPasswordEmail(String email, Map<String, String> model) {
         try {
@@ -90,7 +104,7 @@ public class EmailService implements IEmailService {
         try {
             ClassTemplateLoader ctl = new ClassTemplateLoader(getClass(), "/templates/");
             FileTemplateLoader ftl1 = new FileTemplateLoader(new File(utilsService.getTempDir("templates")));
-            TemplateLoader[] loaders = new TemplateLoader[] { ctl, ftl1 };
+            TemplateLoader[] loaders = new TemplateLoader[]{ctl, ftl1};
             MultiTemplateLoader mtl = new MultiTemplateLoader(loaders);
             fmConfiguration.setTemplateLoader(mtl);
             content.append(
@@ -105,11 +119,11 @@ public class EmailService implements IEmailService {
         return content.toString();
     }
 
-    private String formatExpirationValue(Integer expiration){
-        if(expiration < 60){
+    private String formatExpirationValue(Integer expiration) {
+        if (expiration < 60) {
             return expiration + " minutes";
         }
-        if(expiration % 60 == 0){
+        if (expiration % 60 == 0) {
             return (expiration / 60) + " hours";
         }
         DecimalFormat formatter = new DecimalFormat("#0.0");

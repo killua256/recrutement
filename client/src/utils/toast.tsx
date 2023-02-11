@@ -72,3 +72,7 @@ export const toastLoading = () => {
         id: TOAST_ID
     });
 }
+
+export const dismissToast = () => {
+    toast.dismiss(TOAST_ID)
+ }

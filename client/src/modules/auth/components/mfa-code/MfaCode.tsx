@@ -2,7 +2,7 @@ import { AuthContext } from '@contexts/index';
 import authService from '@modules/auth/auth.service';
 import storageService from '@shared/services/storage.service';
 import { User } from '@shared/types';
-import { toastError, toastSuccess } from '@utils/toast';
+import { dismissToast, toastError, toastLoading, toastSuccess } from '@utils/toast';
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -26,8 +26,10 @@ const MfaCode = () => {
     const onSubmit = async (e: any) => {
         e.preventDefault();
         setLoading(true)
+        toastLoading()
         const {response, success, error} = await authService.mfaAuth(mfaCode);
         if(success && response){
+            dismissToast()
             onLogin(response)
         } else {
             toastError(error?.message)
@@ -38,6 +40,7 @@ const MfaCode = () => {
     const resendCode = async (e: any) => {
         e.preventDefault();
         setLoading(true)
+        toastLoading()
         const code = storageService.getLoginCode()
         if(!code){
             setLoading(false)

@@ -39,10 +39,18 @@ class AuthService extends BaseService {
     }
 
     signup(data: any){
-        return this.httpClient<User>({
+        return this.httpClient({
             apiUrl: this.httpUrl('signup'),
             method: "POST",
             body: data
+        });
+    }
+
+    activateAccount(token: string){
+        return this.httpClient({
+            apiUrl: this.httpUrl('activate-account'),
+            method: "POST",
+            body: token
         });
     }
 

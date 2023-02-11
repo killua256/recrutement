@@ -2,6 +2,7 @@ package com.recrutement.modules.auth;
 
 import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
+import com.recrutement.modules.user.dto.UserDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
 import org.slf4j.Logger;
@@ -96,17 +97,32 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest user) {
         try {
-            authService.signup(user);
-            SignupResponse signupResponse = new SignupResponse();
-            signupResponse.setSuccess(true);
-            //signupResponse.setEmailSent(authService.sendAccountActivation(userResponse));
-            return ResponseEntity.ok(signupResponse);
+            UserDto userDto = authService.signup(user);
+            authService.sendAccountActivation(userDto);
+            return ResponseEntity.ok(true);
         } catch (UserAlreadyExistsException e) {
             logger.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new ResponseEntity<>("User signup failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/activate-account")
+    public ResponseEntity<?> activateAccount(@RequestBody String token) {
+        try{
+            Boolean response = authService.activateAccount(token);
+            return ResponseEntity.ok(response);
+        } catch (DataNotFoundException e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Invalid account activation", HttpStatus.NOT_FOUND);
+        } catch (TokenExpiredException e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Activation link expired", HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Account activation failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

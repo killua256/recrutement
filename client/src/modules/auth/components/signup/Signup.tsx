@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../auth.service';
 import logo from '@assets/logo.png'
 import { AppLink } from '@shared/components';
+import { toastError, toastLoading, toastSuccess } from '@utils/toast';
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -30,15 +31,18 @@ const Signup = () => {
         setSignupInfo({ ...signupInfo, [name]: value })
     }
 
-    const onSubmit = (e: any) => {
+    const onSubmit = async (e: any) => {
         e.preventDefault();
-        authService.signup(signupInfo).then(
-            res => {
-            },
-            error => {
-                console.log("ERROR", error.response.data.msg);
-            }
-        )
+        setLoading(true)
+        toastLoading()
+        const {response, success, error} = await authService.signup(signupInfo);
+        if(success && response){
+            toastSuccess('You signed up successfully, please check your email and activate your account')
+            navigate('/')
+        } else {
+            toastError(error?.message)
+        }
+        setLoading(false)
     }
     return (
         <div className="bg-slate-100 h-full flex flex-col justify-center">

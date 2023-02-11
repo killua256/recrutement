@@ -27,6 +27,7 @@ import com.recrutement.modules.user.service.IUserService;
 import com.recrutement.security.jwt.JwtProvider;
 import com.recrutement.security.jwt.JwtResponse;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -59,19 +60,46 @@ public class AuthService implements IAuthService {
 
     @Override
     @Transactional
-    public void signup(SignupRequest user) throws UserAlreadyExistsException {
+    public UserDto signup(SignupRequest user) throws UserAlreadyExistsException {
         if (userService.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistsException("Username already used");
         }
         if (userService.existsByEmail(user.getEmail())) {
             throw new UserAlreadyExistsException("Email already used");
         }
-        user.setActivated(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleService.findByName("ROLE_USER"));
-
-        userService.saveDto(user);
+        User toUser = userMapper.sigReqToUser(user);
+        return userService.save(toUser);
     }
+
+    @Override
+    public void sendAccountActivation(UserDto user){
+        String activationToken = verifTokenService.create(
+                VerifTokenType.ACCOUNTACTIVATE,
+                userMapper.toUser(user)
+        ).getValue();
+        if(activationToken != null){
+            Map<String, String> data = new HashMap<>();
+            data.put("activationLink", externalConfigs.getClientUrl() + "activate/" + activationToken);
+            data.put("username", user.getUsername());
+            emailService.sendActivationEmail(
+                    user.getEmail(),
+                    data
+            );
+        }
+    }
+
+    @Override
+    @Transactional
+    public Boolean activateAccount(String token) throws TokenExpiredException, DataNotFoundException {
+        User user = verifTokenService.verify(VerifTokenType.ACCOUNTACTIVATE, token.replaceAll("^\"|\"$", ""));
+        user.setActivatedAt(new Date());
+        user.setActivated(true);
+        UserDto result = userService.save(user);
+        return result.getId() != null;
+    }
+
     @Override
     @Transactional
     public void creatAdmin(SignupRequest user) throws UserAlreadyExistsException {
@@ -96,7 +124,7 @@ public class AuthService implements IAuthService {
         if(!user.getActivated()){
             throw new DeactivatedAccountException("Please activate your account to be able to sign in");
         }
-        if(user.getMFAEnabled()){
+        if(user.getMFAEnabled() != null && user.getMFAEnabled()){
             AuthResponse response = new AuthResponse();
             response.setIsMFA(true);
             response.setMFAId(sendMFAEmail(user));

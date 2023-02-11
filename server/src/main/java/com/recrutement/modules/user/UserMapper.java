@@ -1,5 +1,6 @@
 package com.recrutement.modules.user;
 
+import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.base.BaseMapper;
 import com.recrutement.modules.role.RoleMapper;
 import com.recrutement.modules.user.dto.UserDto;
@@ -25,6 +26,13 @@ public interface UserMapper extends BaseMapper<UserDto, User> {
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
     )
     User toUser(UserDto userDto);
+
+    @Mapping(
+            source = "role",
+            target = "role",
+            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
+    )
+    User sigReqToUser(SignupRequest signupRequest);
 
     @Mapping(target = "displayName", source = ".", qualifiedByName="toDisplayName")
     UserMinDto toUserMinDto(User user);

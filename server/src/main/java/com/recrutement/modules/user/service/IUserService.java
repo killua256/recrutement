@@ -5,6 +5,8 @@ import com.recrutement.modules.user.dto.UserDto;
 
 public interface IUserService {
 
+    UserDto save(User user);
+
     boolean existsByEmail(String email);
 
     boolean existsByUsername(String username);

@@ -134,7 +134,7 @@ export class BaseService {
                 response: null,
                 error: {
                     status: error.response?.status || 500,
-                    message: i18next.t(`errors.${errorMessage}`)
+                    message: errorMessage//i18next.t(`errors.${errorMessage}`)
                 }
             }
         }

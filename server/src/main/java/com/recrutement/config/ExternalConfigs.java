@@ -91,6 +91,10 @@ public class ExternalConfigs {
         return getAppEnv().equalsIgnoreCase("prod");
     }
 
+    public String getClientUrl() {
+        return configuration.getString("client.url");
+    }
+
     public String getJwtSecret() {
         return configuration.getString("security.jwt.secret");
     }

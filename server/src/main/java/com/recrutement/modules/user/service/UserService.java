@@ -24,7 +24,8 @@ public class UserService implements IUserService, UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    private UserDto save(User user){
+    @Override
+    public UserDto save(User user){
         return userMapper.toUserDto(
                 userRepository.save(user)
         );

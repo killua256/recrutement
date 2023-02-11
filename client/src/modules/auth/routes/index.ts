@@ -1,7 +1,9 @@
 import { lazy } from 'react';
+
 const Login = lazy(() => import('../components/login/Login'));
-const MfaCode = lazy(() => import('../components/mfa-code/MfaCode'));
 const Signup = lazy(() => import('../components/signup/Signup'));
+const ActivateAccount = lazy(() => import('../components/activate-account/ActivateAccount'));
+const MfaCode = lazy(() => import('../components/mfa-code/MfaCode'));
 
 const authRoutes: any[] = [
     {
@@ -17,6 +19,11 @@ const authRoutes: any[] = [
     {
         path: "/login-mfa",
         component: MfaCode,
+        status: 'GUEST'
+    },
+    {
+        path: '/activate/:token',
+        component: ActivateAccount,
         status: 'GUEST'
     }
     
