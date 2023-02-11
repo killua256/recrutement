@@ -119,6 +119,10 @@ public class ExternalConfigs {
         return configuration.getString("spring.mail.username");
     }
 
+    public String getEmailSender() {
+        return configuration.getString("spring.mail.sender");
+    }
+
     public String getEmailPassword() {
         return configuration.getString("spring.mail.password");
     }

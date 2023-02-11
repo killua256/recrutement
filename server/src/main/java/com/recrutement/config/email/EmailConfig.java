@@ -25,7 +25,7 @@ public class EmailConfig {
             this.javaMailSender = getJavaMailSender(data);
             MimeMessage mail = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-            helper.setFrom(data.getFrom());
+            helper.setFrom(data.getFrom(), data.getUsername());
             helper.setTo(data.getTo());
             helper.setSubject(data.getSubject());
             helper.setText("", body);
@@ -43,7 +43,8 @@ public class EmailConfig {
 
     private EmailData buildData(EmailData emailData) {
         EmailData response = new EmailData();
-        response.setFrom(nullOrEmpty(emailData.getFrom()) ? externalConfigs.getEmailUsername() : emailData.getFrom());
+        response.setFrom(nullOrEmpty(emailData.getFrom()) ? externalConfigs.getEmailSender() : emailData.getFrom());
+        response.setUsername(nullOrEmpty(emailData.getUsername()) ? externalConfigs.getEmailUsername() : emailData.getUsername());
         response.setHost(nullOrEmpty(emailData.getHost()) ? externalConfigs.getEmailHost() : emailData.getHost());
         response.setPassowrd(nullOrEmpty(emailData.getPassowrd()) ? externalConfigs.getEmailPassword() : emailData.getPassowrd());
         response.setProtocol(nullOrEmpty(emailData.getProtocol()) ? externalConfigs.getEmailProtocol() : emailData.getProtocol().toLowerCase());
@@ -57,7 +58,6 @@ public class EmailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(data.getHost());
         mailSender.setPort(data.getPort());
-
         mailSender.setUsername(data.getFrom());
         mailSender.setPassword(data.getPassowrd());
         mailSender.setProtocol(data.getProtocol());

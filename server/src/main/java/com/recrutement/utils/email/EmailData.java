@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailData {
+    private String username;
     private String from;
     private String to;
     private String subject;

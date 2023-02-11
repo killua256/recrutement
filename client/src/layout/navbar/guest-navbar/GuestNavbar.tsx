@@ -7,8 +7,8 @@ const GuestNavbar = () => {
             <AppLink to='/signup'>
                 Signup
             </AppLink>
-            <div className='-ml-3 w-[1px] h-10 bg-gray-600'></div>
-            <AppLink border to='/login'>
+            <div className='-mx-3 w-[1px] h-10 bg-gray-600'></div>
+            <AppLink to='/login'>
                 SignIn
             </AppLink>
         </div>
