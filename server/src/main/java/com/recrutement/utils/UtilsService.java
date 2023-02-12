@@ -19,7 +19,7 @@ public class UtilsService {
     private UserMapper userMapper;
     @Autowired
     private ExternalConfigs externalConfigs;
-    private final String UPLOAD_DIR = "phishcode";
+    private final String UPLOAD_DIR = "recruitment";
 
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

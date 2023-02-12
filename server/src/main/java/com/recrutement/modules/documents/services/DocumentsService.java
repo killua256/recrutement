@@ -16,6 +16,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -50,9 +52,11 @@ public class DocumentsService implements IDocumentsService {
                 dir.mkdirs();
             }
             File serverfile = new File(dir.getAbsolutePath() + File.separator + filename);
-            MagicMatch match = Magic.getMagicMatch(serverfile, true);
-            doc.setMimeType(match.getMimeType());
-
+            Path filePath = Paths.get(serverfile.getPath());
+            String s = Files.probeContentType(filePath);
+            /*MagicMatch match = Magic.getMagicMatch(serverfile, true);
+            doc.setMimeType(match.getMimeType());*/
+            doc.setMimeType(s);
             BufferedOutputStream stream = new BufferedOutputStream(Files.newOutputStream(serverfile.toPath()));
             stream.write(bytes);
             stream.close();
