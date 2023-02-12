@@ -5,6 +5,7 @@ import { DropdownItem, User } from '@shared/types';
 import { getFile } from '@utils/fileHandler';
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate, NavLink } from 'react-router-dom';
 import NavItem from '../nav-item/NavItem';
 
@@ -34,7 +35,12 @@ const UserNavbar = () => {
                 action: `/in/${user?.username}`
             },
             {
-                label: 'Sign out',
+                component: (
+                    <div className="flex items-center gap-4">
+                        <FaSignOutAlt />
+                        Sign out
+                    </div>
+                ),
                 action: onLogout
             }
         ]

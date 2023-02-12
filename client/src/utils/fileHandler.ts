@@ -2,7 +2,7 @@ import { Config } from "@config/Config"
 import { Document } from "@shared/types"
 
 export const getFile = (file: Document) => {
-    return  `${Config.getConfig().apiUrl}docs/${file?.id}`
+    return file && file.id ? `${Config.getConfig().apiUrl}docs/${file?.id}` : ''
 }
 
 export const streamFile = (name: string) => {
