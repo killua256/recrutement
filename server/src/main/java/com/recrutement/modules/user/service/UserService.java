@@ -1,5 +1,6 @@
 package com.recrutement.modules.user.service;
 
+import com.recrutement.exceptions.DataNotFoundException;
 import com.recrutement.modules.role.RoleRepository;
 import com.recrutement.modules.user.User;
 import com.recrutement.modules.user.UserMapper;
@@ -53,5 +54,14 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public UserDto saveDto(UserDto user) {
         return save(userMapper.toUser(user));
+    }
+
+    @Override
+    public UserDto findByUsername(String username) throws DataNotFoundException {
+        Optional<User> optional = userRepository.findByUsername(username);
+        if(optional.isEmpty()){
+            throw new DataNotFoundException("User not found");
+        }
+        return userMapper.toUserDto(optional.get());
     }
 }
