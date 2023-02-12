@@ -5,6 +5,7 @@ import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.documents.services.IDocumentsService;
 import com.recrutement.modules.user.dto.UserDto;
 import com.recrutement.modules.user.service.IUserService;
+import com.recrutement.utils.UtilsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class UserController {
     private IUserService userService;
     @Autowired
     private IDocumentsService documentsService;
+    @Autowired
+    private UtilsService utilsService;
 
     @GetMapping("/{username}")
     public ResponseEntity<?> resendCode(@PathVariable String username) {
@@ -43,7 +46,9 @@ public class UserController {
     public ResponseEntity<?> changeAvatar(@RequestParam(name = "avatar") MultipartFile avatar) {
         try {
             Document avatarDoc = documentsService.upload(avatar, "users");
+            Document oldDoc = utilsService.getCurrentUser().getAvatar();
             UserDto response = userService.updateAvatar(avatarDoc);
+            documentsService.delete(oldDoc);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -55,7 +60,9 @@ public class UserController {
     public ResponseEntity<?> changeCover(@RequestParam(name = "cover") MultipartFile cover) {
         try {
             Document coverDoc = documentsService.upload(cover, "users");
+            Document oldDoc = utilsService.getCurrentUser().getCover();
             UserDto response = userService.updateCover(coverDoc);
+            documentsService.delete(oldDoc);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
