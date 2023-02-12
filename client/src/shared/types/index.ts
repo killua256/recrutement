@@ -7,6 +7,7 @@ import { Page } from "./page";
 import { Route } from "./route";
 import { Settings } from "./settings";
 import { User } from "./user";
+import { Document } from "./document";
 
 export { ErrorData };
 export type { 
@@ -17,5 +18,6 @@ export type {
     User,
     HttpRequest,
     HttpResponse,
-    HttpError
+    HttpError,
+    Document
 };

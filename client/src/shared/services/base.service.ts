@@ -96,6 +96,7 @@ export class BaseService {
         params,
         query,
         headers,
+        isFile = false
     }: HttpRequest): Promise<HttpResponse<T>> {
         let url = `${this.API_URL}${apiUrl}`
         if (params && params.length > 0) {
@@ -104,13 +105,18 @@ export class BaseService {
         if (query && Object.keys(query).length > 0) {
             url += this.createQuery(query)
         }
+        const currentDate = new Date()
         const options = {
             url,
             method: method,
             data: body || null,
             headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
+                "Content-Type": isFile ?
+                    'multipart/form-data;charset=utf-8' :
+                    'application/json;charset=UTF-8',
+                "Access-Control-Allow-Credentials": "true",
+                "timeZone": currentDate.getTimezoneOffset()/60 * (-1),
                 ...headers
             }
         };

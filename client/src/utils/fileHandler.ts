@@ -1,7 +1,8 @@
 import { Config } from "@config/Config"
+import { Document } from "@shared/types"
 
-export const getFile = (src: string, name: string) => {
-    return  `${Config.getConfig().apiUrl}file/${src}/${name}`
+export const getFile = (file: Document) => {
+    return  `${Config.getConfig().apiUrl}docs/${file?.id}`
 }
 
 export const streamFile = (name: string) => {

@@ -7,4 +7,5 @@ export type HttpRequest = {
     params?: any[],
     query?: any,
     headers?: any
+    isFile?: boolean
 }

@@ -22,6 +22,15 @@ class UserService extends BaseService {
         });
     }
 
+    updateAvatar(avatar: FormData){
+        return this.httpClient<User>({
+            apiUrl: this.httpUrl('avatar'),
+            method: "POST",
+            body: avatar,
+            isFile: true
+        });
+    }
+
 }
 
 export default UserService.instance;

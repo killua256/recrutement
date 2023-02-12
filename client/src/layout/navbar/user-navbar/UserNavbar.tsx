@@ -25,7 +25,7 @@ const UserNavbar = () => {
                 component: (
                     <div className="flex items-center gap-4">
                         <Avatar user className="h-8 w-8 rounded-full"
-                            src={getFile('users', user?.imagePath!)}
+                            src={getFile(user?.avatar!)}
                             alt={user?.displayName} />
                         {user?.displayName}
                     </div>
@@ -52,7 +52,7 @@ const UserNavbar = () => {
                 <Language />
                 <Dropdown trigger={(
                     <Avatar user className="h-10 w-10 rounded-full"
-                        src={getFile('users', user?.imagePath!)}
+                        src={getFile(user?.avatar!)}
                         alt={user?.displayName} />
                 )}
                     items={dropdownItems(user!)}

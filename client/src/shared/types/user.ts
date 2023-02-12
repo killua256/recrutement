@@ -1,3 +1,5 @@
+import { Document } from "./document";
+
 export type User = {
     id? : number
     displayName? : string
@@ -5,8 +7,8 @@ export type User = {
     firstname? : string
     lastname? :  string
     username? :  string
-    imagePath? : string
-    coverPath? : string
+    avatar? : Document
+    cover? : Document
     //role? : Role
     createdAt? : Date
 }
