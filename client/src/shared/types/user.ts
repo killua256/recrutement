@@ -6,6 +6,7 @@ export type User = {
     lastname? :  string
     username? :  string
     imagePath? : string
+    coverPath? : string
     //role? : Role
     createdAt? : Date
 }

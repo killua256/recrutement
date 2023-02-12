@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@contexts/auth/AuthContext';
-import authService from '../../auth.service';
+import authService from '../../services/auth.service';
 import { SettingsContext } from '@contexts/settings/SettingsContext';
 import { User } from '@shared/types';
 import { toastError, toastLoading, toastSuccess, dismissToast } from '@utils/toast';

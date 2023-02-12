@@ -1,5 +1,5 @@
 import { AuthContext } from '@contexts/index';
-import authService from '@modules/auth/auth.service';
+import authService from '@modules/auth/services/auth.service';
 import storageService from '@shared/services/storage.service';
 import { User } from '@shared/types';
 import { dismissToast, toastError, toastLoading, toastSuccess } from '@utils/toast';

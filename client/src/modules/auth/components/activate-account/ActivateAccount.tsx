@@ -1,4 +1,4 @@
-import authService from '@modules/auth/auth.service';
+import authService from '@modules/auth/services/auth.service';
 import { PageLoading } from '@shared/components'
 import { toastError, toastSuccess } from '@utils/toast';
 import React, { useEffect } from 'react'

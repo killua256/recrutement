@@ -19,10 +19,11 @@ export class BaseService {
         Axios.interceptors.response.use(
             (res) => res,
             (error) => {
+                console.log("ERROR : ", error)
                 if (
                     error.config &&
                     error.response?.status === 401 &&
-                    error.response?.data?.message === "token_expired" &&
+                    //error.response?.data?.message === "token_expired" &&
                     !error.config.__isRetry
                 ) {
                     return new Promise((resolve, reject) => {
@@ -62,13 +63,13 @@ export class BaseService {
 
     private async refresh(){
         return this.httpClient({
-            apiUrl: this.API_URL + "refresh-token",
+            apiUrl: "auth/refresh-token",
             method: "POST"
         })
     }
 
-    private createParams = (params: any[]) => {
-        return params.join('/')
+    private createParams = (url: string, params: any[]) => {
+        return url.endsWith('/') ? params.join('/') : '/' + params.join('/')
     }
 
     private createQuery = (query: any) => {
@@ -98,7 +99,7 @@ export class BaseService {
     }: HttpRequest): Promise<HttpResponse<T>> {
         let url = `${this.API_URL}${apiUrl}`
         if (params && params.length > 0) {
-            url += this.createParams(params)
+            url += this.createParams(url, params)
         }
         if (query && Object.keys(query).length > 0) {
             url += this.createQuery(query)

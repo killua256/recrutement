@@ -1,14 +1,15 @@
 [
     {
         "label": "home",
-        "url": "/",
+        "url": "/feed",
         "icon": "home"
     },
     {
         "label": "network",
         "url": "/network",
         "icon": "network"
-    },{
+    },
+    {
         "label": "jobs",
         "url": "/jobs",
         "icon": "jobs"

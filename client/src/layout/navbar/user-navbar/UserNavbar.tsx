@@ -19,10 +19,6 @@ const UserNavbar = () => {
         navigate('/')
     }
 
-    const toProfil = () => {
-        navigate('/profile')
-    }
-
     const dropdownItems = (user: User): DropdownItem[] => {
         return [
             {
@@ -34,7 +30,8 @@ const UserNavbar = () => {
                         {user?.displayName}
                     </div>
                 ),
-                action: toProfil
+                isLink: true,
+                action: `/in/${user?.username}`
             },
             {
                 label: 'Sign out',

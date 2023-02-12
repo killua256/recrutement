@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import authService from '../../auth.service';
+import authService from '../../services/auth.service';
 import logo from '@assets/logo.png'
 import { AppLink } from '@shared/components';
 import { toastError, toastLoading, toastSuccess } from '@utils/toast';

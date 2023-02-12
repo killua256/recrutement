@@ -1,6 +1,6 @@
 export interface Route {
     path: string;
     component: any;
-    status: string;
+    status?: string;
     roles?: string[];
 }

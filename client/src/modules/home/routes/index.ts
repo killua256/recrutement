@@ -3,7 +3,7 @@ const Home = lazy(() => import('../components/Home'));
 
 const homeRoutes: any[] = [
     {
-        path: "/",
+        path: "/feed",
         component: Home
     }
     

@@ -1,3 +1,4 @@
+import AppImage from "./AppImage";
 import AppLink from "./AppLink";
 import Avatar from "./Avatar";
 import Button from "./Button";
@@ -11,5 +12,6 @@ export {
     AppLink,
     PageLoading,
     Avatar,
+    AppImage,
     Language
 }

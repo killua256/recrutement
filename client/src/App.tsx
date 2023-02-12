@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import 'antd/dist/reset.css';
 import './App.css'
 import Layout from './layout/Layout';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import appRoutes from './routes';
 import { GuestRoute, ProtectedRoute } from '@shared/guards';
 import { PageLoading } from '@shared/components';
@@ -14,10 +14,11 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Toaster />
+      <Toaster />
       <AppContext>
         <Layout>
           <Routes>
+            <Route path="/" element={<Navigate to="/feed" />} />
             {appRoutes.map((route, i) => {
               if (route.status == 'PROTECTED') {
                 return (
