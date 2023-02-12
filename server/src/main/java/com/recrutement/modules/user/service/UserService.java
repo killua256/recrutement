@@ -73,4 +73,12 @@ public class UserService implements IUserService, UserDetailsService {
         user = userRepository.save(user);
         return userMapper.toUserDto(user);
     }
+
+    @Override
+    public UserDto updateCover(Document cover) {
+        User user = utilsService.getCurrentUser();
+        user.setCover(cover);
+        user = userRepository.save(user);
+        return userMapper.toUserDto(user);
+    }
 }

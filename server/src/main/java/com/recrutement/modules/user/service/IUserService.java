@@ -18,4 +18,6 @@ public interface IUserService {
     UserDto findByUsername(String username) throws DataNotFoundException;
 
     UserDto updateAvatar(Document avatar);
+
+    UserDto updateCover(Document cover);
 }

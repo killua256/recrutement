@@ -31,6 +31,15 @@ class UserService extends BaseService {
         });
     }
 
+    updateCover(cover: FormData){
+        return this.httpClient<User>({
+            apiUrl: this.httpUrl('cover'),
+            method: "POST",
+            body: cover,
+            isFile: true
+        });
+    }
+
 }
 
 export default UserService.instance;

@@ -50,4 +50,16 @@ public class UserController {
             return new ResponseEntity<>("Changing avatar failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping(value = "/cover", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> changeCover(@RequestParam(name = "cover") MultipartFile cover) {
+        try {
+            Document coverDoc = documentsService.upload(cover, "users");
+            UserDto response = userService.updateCover(coverDoc);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Changing cover failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
