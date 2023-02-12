@@ -3,6 +3,7 @@ package com.recrutement.modules.user.dto;
 import java.util.Date;
 
 import com.recrutement.modules.base.BaseDto;
+import com.recrutement.modules.documents.DocumentDto;
 import com.recrutement.modules.role.RoleDto;
 import lombok.*;
 
@@ -23,5 +24,7 @@ public class UserDto extends BaseDto {
 	private String phone;
 	private Boolean MFAEnabled;
 	private Date lastLoggedInDate;
+	private DocumentDto avatar;
+	private DocumentDto cover;
 
 }

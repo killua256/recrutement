@@ -1,11 +1,12 @@
 package com.recrutement.modules.user.service;
 
 import com.recrutement.exceptions.DataNotFoundException;
-import com.recrutement.modules.role.RoleRepository;
+import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.user.User;
 import com.recrutement.modules.user.UserMapper;
 import com.recrutement.modules.user.UserRepository;
 import com.recrutement.modules.user.dto.UserDto;
+import com.recrutement.utils.UtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,9 +22,9 @@ public class UserService implements IUserService, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UtilsService utilsService;
 
     @Override
     public UserDto save(User user){
@@ -63,5 +64,13 @@ public class UserService implements IUserService, UserDetailsService {
             throw new DataNotFoundException("User not found");
         }
         return userMapper.toUserDto(optional.get());
+    }
+
+    @Override
+    public UserDto updateAvatar(Document avatar) {
+        User user = utilsService.getCurrentUser();
+        user.setAvatar(avatar);
+        user = userRepository.save(user);
+        return userMapper.toUserDto(user);
     }
 }

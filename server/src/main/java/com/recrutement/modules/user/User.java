@@ -1,6 +1,7 @@
 package com.recrutement.modules.user;
 
 import com.recrutement.modules.base.BaseEntity;
+import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -17,11 +18,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
+@Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "firstname")
@@ -49,6 +50,10 @@ public class User extends BaseEntity implements UserDetails {
     private String phone;
     @Column(name = "mfa_enabled", columnDefinition = "boolean default false")
     private Boolean MFAEnabled = false;
+    @OneToOne(orphanRemoval = true)
+    private Document avatar;
+    @OneToOne(orphanRemoval = true)
+    private Document cover;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,6 +1,7 @@
 package com.recrutement.modules.user.dto;
 
 import com.recrutement.modules.base.BaseDto;
+import com.recrutement.modules.documents.DocumentDto;
 import com.recrutement.modules.role.RoleDto;
 import lombok.*;
 
@@ -19,4 +20,5 @@ public class UserMinDto extends BaseDto {
     private String email;
     private String image;
     private RoleDto role;
+    private DocumentDto avatar;
 }

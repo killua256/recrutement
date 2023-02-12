@@ -60,7 +60,8 @@ public class WebSecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/v1/auth/**"
+                        "/api/v1/auth/**",
+                        "/api/v1/docs/**"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()
