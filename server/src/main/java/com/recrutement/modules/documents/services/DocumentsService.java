@@ -1,6 +1,8 @@
-package com.recrutement.modules.documents;
+package com.recrutement.modules.documents.services;
 
 import com.recrutement.exceptions.FileUploadException;
+import com.recrutement.modules.documents.Document;
+import com.recrutement.modules.documents.DocumentRepository;
 import com.recrutement.utils.UtilsService;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicMatch;

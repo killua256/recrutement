@@ -1,6 +1,7 @@
-package com.recrutement.modules.documents;
+package com.recrutement.modules.documents.services;
 
 import com.recrutement.exceptions.FileUploadException;
+import com.recrutement.modules.documents.Document;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
