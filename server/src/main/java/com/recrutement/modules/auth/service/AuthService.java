@@ -146,7 +146,7 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException {
+    public AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException, DataNotFoundException {
         return authenticate(utilsService.getCurrentUser());
     }
 

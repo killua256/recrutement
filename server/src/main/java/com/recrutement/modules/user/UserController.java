@@ -1,6 +1,7 @@
 package com.recrutement.modules.user;
 
 import com.recrutement.exceptions.DataNotFoundException;
+import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.documents.services.IDocumentsService;
 import com.recrutement.modules.user.dto.UserDto;
@@ -50,6 +51,9 @@ public class UserController {
             UserDto response = userService.updateAvatar(avatarDoc);
             documentsService.delete(oldDoc);
             return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new ResponseEntity<>("Changing avatar failed", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,6 +68,9 @@ public class UserController {
             UserDto response = userService.updateCover(coverDoc);
             documentsService.delete(oldDoc);
             return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new ResponseEntity<>("Changing cover failed", HttpStatus.INTERNAL_SERVER_ERROR);

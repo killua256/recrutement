@@ -25,5 +25,5 @@ public interface IAuthService {
 
     Long resendCode(Long tokenId) throws DataNotFoundException;
 
-    AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException;
+    AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException, DataNotFoundException;
 }

@@ -32,15 +32,18 @@ export class BaseService {
                                 resolve(result);
                             })
                             .catch((err) => {
+                                logout()
                                 reject(err);
                             });
                     });
                 }
+                logout();
                 return Promise.reject(error);
             });
     }
 
     private refreshToken(config: any, logout: any) {
+        config.__isRetry = true
         return new Promise((resolve, reject) => {
             this.refresh()
                 .then((res: any) => {
@@ -50,12 +53,10 @@ export class BaseService {
                             return resolve(result);
                         })
                         .catch((err) => {
-                            console.log(err);
                             return reject(err);
                         });
                 })
                 .catch((err) => {
-                    console.log(err);
                     logout();
                 });
         });

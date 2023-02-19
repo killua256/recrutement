@@ -1,6 +1,7 @@
 package com.recrutement.modules.user.service;
 
 import com.recrutement.exceptions.DataNotFoundException;
+import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.user.User;
 import com.recrutement.modules.user.UserMapper;
@@ -67,7 +68,7 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public UserDto updateAvatar(Document avatar) {
+    public UserDto updateAvatar(Document avatar) throws UserNotFoundException {
         User user = utilsService.getCurrentUser();
         user.setAvatar(avatar);
         user = userRepository.save(user);
@@ -75,7 +76,7 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public UserDto updateCover(Document cover) {
+    public UserDto updateCover(Document cover) throws UserNotFoundException {
         User user = utilsService.getCurrentUser();
         user.setCover(cover);
         user = userRepository.save(user);

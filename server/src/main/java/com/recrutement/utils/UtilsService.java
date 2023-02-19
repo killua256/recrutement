@@ -1,7 +1,10 @@
 package com.recrutement.utils;
 
+import com.recrutement.exceptions.DataNotFoundException;
+import com.recrutement.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.recrutement.config.ExternalConfigs;
@@ -21,11 +24,15 @@ public class UtilsService {
     private ExternalConfigs externalConfigs;
     private final String UPLOAD_DIR = "recruitment";
 
-    public User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getCurrentUser() throws UserNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof User)){
+            throw new UserNotFoundException("Cannot load current user");
+        }
+        return (User) authentication.getPrincipal();
     }
 
-    public UserDto getCurrentUserDto() {
+    public UserDto getCurrentUserDto() throws UserNotFoundException {
         return userMapper.toUserDto(getCurrentUser());
     }
 

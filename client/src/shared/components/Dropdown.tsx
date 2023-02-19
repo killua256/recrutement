@@ -44,7 +44,7 @@ const Dropdown = ({
                                         to={item.action}
                                         className={classNames(
                                             active || item.active ? 'bg-gray-100' : '',
-                                            'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                            'last:rounded-md block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                         )}
                                     >
                                         {item.component != undefined ? item.component : item.label}
@@ -54,7 +54,7 @@ const Dropdown = ({
                                         onClick={item.action}
                                         className={classNames(
                                             active || item.active ? 'bg-gray-100' : '',
-                                            'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                            'last:rounded-md block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                         )}>
                                         {item.component != undefined ? item.component : item.label}
                                     </div>
