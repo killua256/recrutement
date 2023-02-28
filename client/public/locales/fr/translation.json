@@ -5,5 +5,16 @@
         "jobs": "Emploi",
         "messages": "Messages",
         "notifications": "Notifications"
+    },
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "mobileNumber": "Mobile number",
+    "mfa": "Multi-factor authentication",
+    "validation": {
+        "required": "{{field}} is required",
+        "number": "{{field}} must be a number"
     }
 }

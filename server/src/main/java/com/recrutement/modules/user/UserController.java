@@ -30,16 +30,33 @@ public class UserController {
     private UtilsService utilsService;
 
     @GetMapping("/{username}")
-    public ResponseEntity<?> resendCode(@PathVariable String username) {
+    public ResponseEntity<?> findByUsername(@PathVariable String username) {
         try{
             UserDto response = userService.findByUsername(username);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataNotFoundException e){
             logger.error(e.getMessage());
-            return new ResponseEntity<>("Not authenticated", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User data not found", HttpStatus.NOT_FOUND);
         } catch (Exception e){
             logger.error(e.getMessage());
-            return new ResponseEntity<>("Resend email code failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Loading user data failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> update(
+            @PathVariable Long id,
+            @RequestBody UserDto user
+    ) {
+        try {
+            UserDto response = userService.update(id, user);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Updating user data failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

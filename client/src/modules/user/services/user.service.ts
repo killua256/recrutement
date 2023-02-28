@@ -22,6 +22,15 @@ class UserService extends BaseService {
         });
     }
 
+    update(id: number, data: Partial<User>){
+        return this.httpClient<User>({
+            apiUrl: this.httpUrl(''),
+            method: "PUT",
+            params: [id],
+            body: data
+        });
+    }
+
     updateAvatar(avatar: FormData){
         return this.httpClient<User>({
             apiUrl: this.httpUrl('avatar'),

@@ -11,17 +11,38 @@ interface AppImageProps {
 
 const AppImage = (props: AppImageProps) => {
 
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<boolean>(false)
+
     const onError = (event: any) => {
+        setLoading(false)
+        setError(true)
+    }
+
+    const onLoad = (event: any) => {
+        setLoading(false)
+        setError(false)
+    }
+
+    const getPlaceholder = () => {
         if(props.type == "COVER"){
-            event.target.setAttribute("src", cover)
+            return cover
         } else {
-            event.target.setAttribute("src", placeholder)
+            return placeholder
         }
-        event.onerror = null;
     }
 
     return (
-        <img src={props.src} alt={props.alt} onError={onError} className={props.className} />
+        <>
+            <img src={getPlaceholder()} alt={props.alt}
+                className={`${props.className} ${loading ? 'animate-pulse' : ''}`} style={{
+                    display: loading || error ? 'block' : 'none'
+                }} />
+            <img src={props.src} alt={props.alt} onLoad={onLoad}
+                onError={onError} className={props.className} style={{
+                    display: loading || error ? 'none' : 'block'
+                }} />
+        </>
     )
 }
 

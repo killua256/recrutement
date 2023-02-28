@@ -13,21 +13,19 @@
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: lightgray transparent;
+  scrollbar-color: gray transparent;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
 }
 
 *::-webkit-scrollbar-track {
   background: transparent;
-  border-radius: 4px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: lightgray;
-  border-radius: 4px;
+  background-color: gray;
 }

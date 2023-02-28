@@ -110,6 +110,7 @@ public class AuthService implements IAuthService {
             throw new UserAlreadyExistsException("Email already used");
         }
         user.setActivated(true);
+        user.setActivatedAt(new Date());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleService.findByName("ROLE_ADMIN"));
 

@@ -33,6 +33,18 @@ public class UserService implements IUserService, UserDetailsService {
                 userRepository.save(user)
         );
     }
+    @Override
+    public UserDto update(Long id, UserDto dto) throws UserNotFoundException {
+        Optional<User> optional = userRepository.findById(id);
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException("User data not found");
+        }
+
+        User existing = optional.get();
+        userMapper.partialUpdate(existing, dto);
+        existing = userRepository.save(existing);
+        return userMapper.toUserDto(existing);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

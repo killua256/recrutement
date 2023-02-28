@@ -1,5 +1,6 @@
 import { Switch } from '@headlessui/react'
 import React, { Fragment } from 'react'
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 
 interface ToggleBtnProps {
   enabled: boolean
@@ -17,7 +18,6 @@ const ToggleBtn = ({
     <div>
       <Switch checked={enabled} onChange={setEnabled} as={Fragment}>
         {({ checked }) => (
-          /* Use the `checked` state to conditionally style the button. */
           <button
             className={`${checked ? 'bg-primary-600' : 'bg-gray-200'
               } relative inline-flex h-6 w-11 items-center rounded-full`}

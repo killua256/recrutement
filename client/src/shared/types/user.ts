@@ -7,6 +7,7 @@ export type User = {
     firstname? : string
     lastname? :  string
     username? :  string
+    mfaenabled?: boolean,
     avatar? : Document
     cover? : Document
     //role? : Role

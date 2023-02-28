@@ -19,8 +19,6 @@ public class UserDto extends BaseDto {
 	private String displayName;
 	private String email;
 	private RoleDto role;
-	private Boolean activated;
-	private Date activatedAt;
 	private String phone;
 	private Boolean MFAEnabled;
 	private Date lastLoggedInDate;

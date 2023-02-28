@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 interface ButtonProps {
-    color: string
+    color?: string
     outline?: boolean
     rounded?: boolean
     submit?: boolean
@@ -13,7 +13,7 @@ interface ButtonProps {
 }
 
 const Button = ({
-    color,
+    color = 'primary',
     outline,
     rounded,
     submit,

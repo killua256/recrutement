@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import UserAvatar from './user-avatar/UserAvatar'
 import UserCover from './user-cover/UserCover'
+import UserSettings from './user-settings/UserSettings'
 
 const UserProfile = () => {
     const { user } = useContext(AuthContext)
@@ -39,7 +40,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         loadUserProfile()
-    }, [])
+    }, [username])
 
     const tabsTitles = username == user?.username ? [
         "Overview",
@@ -53,7 +54,7 @@ const UserProfile = () => {
     const tabsElement = username == user?.username ? [
         <p>Overview</p>,
         <p>Posts</p>,
-        <p>Settings</p>
+        <UserSettings/>
     ] : [
         <p>Overview</p>,
         <p>Posts</p>

@@ -10,6 +10,8 @@ public interface IUserService {
 
     UserDto save(User user);
 
+    UserDto update(Long id, UserDto dto) throws UserNotFoundException;
+
     boolean existsByEmail(String email);
 
     boolean existsByUsername(String username);
