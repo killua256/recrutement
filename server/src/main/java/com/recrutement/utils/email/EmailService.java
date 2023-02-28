@@ -103,8 +103,8 @@ public class EmailService implements IEmailService {
         StringBuilder content = new StringBuilder();
         try {
             ClassTemplateLoader ctl = new ClassTemplateLoader(getClass(), "/templates/");
-            FileTemplateLoader ftl1 = new FileTemplateLoader(new File(utilsService.getTempDir("templates")));
-            TemplateLoader[] loaders = new TemplateLoader[]{ctl, ftl1};
+            //FileTemplateLoader ftl1 = new FileTemplateLoader(new File(utilsService.getTempDir("templates")));
+            TemplateLoader[] loaders = new TemplateLoader[]{ctl};
             MultiTemplateLoader mtl = new MultiTemplateLoader(loaders);
             fmConfiguration.setTemplateLoader(mtl);
             content.append(
