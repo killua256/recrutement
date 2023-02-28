@@ -5,6 +5,7 @@ import Button from "./Button";
 import Dropdown from "./Dropdown";
 import Language from "./Language";
 import PageLoading from "./PageLoading";
+import Tabs from "./Tabs";
 import ToggleBtn from "./ToggleBtn";
 
 export {
@@ -15,5 +16,6 @@ export {
     Avatar,
     AppImage,
     Language,
-    ToggleBtn
+    ToggleBtn,
+    Tabs
 }

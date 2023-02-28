@@ -1,10 +1,11 @@
 import { AuthContext } from '@contexts/index'
+import { Tab } from '@headlessui/react'
 import userService from '@modules/user/services/user.service'
-import { AppImage, Avatar, PageLoading } from '@shared/components'
+import { AppImage, Avatar, PageLoading, Tabs } from '@shared/components'
 import { User } from '@shared/types'
 import { getFile } from '@utils/fileHandler'
 import { toastError, toastSuccess } from '@utils/toast'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom'
 import CurrentUserProfile from './current-profile/CurrentUserProfile'
@@ -46,6 +47,24 @@ const UserProfile = () => {
         loadUserProfile()
     }, [])
 
+    const tabsTitles = username == user?.username ? [
+        "Overview",
+        "Posts",
+        "Settings"
+    ] : [
+        "Overview",
+        "Posts"
+    ]
+
+    const tabsElement = username == user?.username ? [
+        <p>Overview</p>,
+        <p>Posts</p>,
+        <p>Settings</p>
+    ] : [
+        <p>Overview</p>,
+        <p>Posts</p>
+    ]
+
     return loading ? <PageLoading /> :
         <div className='w-11/12 max-w-screen-md mx-auto my-4 relative bg-white rounded-md shadow-md'>
             <UserCover userProfile={userProfile}
@@ -53,11 +72,11 @@ const UserProfile = () => {
             <div className='p-8'>
                 <UserAvatar userProfile={userProfile}
                     setUserProfile={data => setUserProfile(data)} />
+                <div className='my-6'>
+                    <Tabs titles={tabsTitles} elements={tabsElement}/>
+                </div>
             </div>
         </div>
-    // user?.username == username ?
-    //     <CurrentUserProfile userProfile={userProfile} /> :
-    //     <PublicUserProfile userProfile={userProfile} />
 }
 
 export default UserProfile
