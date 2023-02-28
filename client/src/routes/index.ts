@@ -1,12 +1,12 @@
 import authRoutes from "@modules/auth/routes";
 import homeRoutes from "@modules/home/routes";
-import settingsRoutes from "@modules/settings/routes";
+import userRoutes from "@modules/user/routes";
 
 
 const appRoutes: any[] = [
     ...authRoutes,
     ...homeRoutes,
-    ...settingsRoutes
+    ...userRoutes
 ];
 
 export default appRoutes;

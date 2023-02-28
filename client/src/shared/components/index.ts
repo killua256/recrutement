@@ -5,6 +5,7 @@ import Button from "./Button";
 import Dropdown from "./Dropdown";
 import Language from "./Language";
 import PageLoading from "./PageLoading";
+import ToggleBtn from "./ToggleBtn";
 
 export {
     Button,
@@ -13,5 +14,6 @@ export {
     PageLoading,
     Avatar,
     AppImage,
-    Language
+    Language,
+    ToggleBtn
 }
