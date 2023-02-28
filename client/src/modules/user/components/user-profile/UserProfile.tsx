@@ -1,20 +1,14 @@
 import { AuthContext } from '@contexts/index'
-import { Tab } from '@headlessui/react'
 import userService from '@modules/user/services/user.service'
-import { AppImage, Avatar, PageLoading, Tabs } from '@shared/components'
+import { PageLoading, Tabs } from '@shared/components'
 import { User } from '@shared/types'
-import { getFile } from '@utils/fileHandler'
-import { toastError, toastSuccess } from '@utils/toast'
-import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
-import { FaCamera } from 'react-icons/fa'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import CurrentUserProfile from './current-profile/CurrentUserProfile'
-import PublicUserProfile from './public-profile/PublicUserProfile'
 import UserAvatar from './user-avatar/UserAvatar'
 import UserCover from './user-cover/UserCover'
 
 const UserProfile = () => {
-    const { user, login } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const { username } = useParams()
     const navigate = useNavigate()
 
