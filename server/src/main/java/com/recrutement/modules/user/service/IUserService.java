@@ -1,9 +1,11 @@
 package com.recrutement.modules.user.service;
 
 import com.recrutement.exceptions.DataNotFoundException;
+import com.recrutement.exceptions.InvalidPassword;
 import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.user.User;
+import com.recrutement.modules.user.dto.ChangePasswordReq;
 import com.recrutement.modules.user.dto.UserDto;
 
 public interface IUserService {

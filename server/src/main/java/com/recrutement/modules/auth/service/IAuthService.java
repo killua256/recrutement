@@ -4,6 +4,7 @@ import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.AuthRequest;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.auth.httpResponse.AuthResponse;
+import com.recrutement.modules.user.dto.ChangePasswordReq;
 import com.recrutement.modules.user.dto.UserDto;
 import org.springframework.transaction.annotation.Transactional;
 

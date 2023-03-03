@@ -1,5 +1,6 @@
 import { BaseService } from '@shared/services/base.service';
 import { User } from '@shared/types';
+import { ChangePasswordReq } from '../models/change-password';
 
 class UserService extends BaseService {
     private SRC_URL = "users/";
@@ -46,6 +47,14 @@ class UserService extends BaseService {
             method: "POST",
             body: cover,
             isFile: true
+        });
+    }
+
+    changePassword(data: ChangePasswordReq){
+        return this.httpClient<any>({
+            apiUrl: this.httpUrl('change-password'),
+            method: "POST",
+            body: data
         });
     }
 

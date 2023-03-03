@@ -13,7 +13,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [loginInfo, setLoginInfo] = useState({
         username: 'admin',
-        password: 'password'
+        password: 'aaAA11@@'
     })
     const [loading, setLoading] = useState(false)
 

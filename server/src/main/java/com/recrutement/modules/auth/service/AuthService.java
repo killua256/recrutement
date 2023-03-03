@@ -3,9 +3,11 @@ package com.recrutement.modules.auth.service;
 import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
 import com.recrutement.modules.role.IRoleService;
+import com.recrutement.modules.user.dto.ChangePasswordReq;
 import com.recrutement.modules.verifToken.VerifToken;
 import com.recrutement.modules.verifToken.VerifTokenType;
 import com.recrutement.modules.verifToken.service.IVerifTokenService;
+import com.recrutement.utils.PasswordHandler;
 import com.recrutement.utils.UtilsService;
 import com.recrutement.utils.email.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +152,8 @@ public class AuthService implements IAuthService {
     public AuthResponse refreshToken() throws TokenExpiredException, UserNotFoundException, DataNotFoundException {
         return authenticate(utilsService.getCurrentUser());
     }
+
+
 
     private User getAuthUser(AuthRequest authRequest) throws UserNotFoundException {
         Authentication authentication = authenticationManager.authenticate(

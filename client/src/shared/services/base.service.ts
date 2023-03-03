@@ -10,6 +10,7 @@ export class BaseService {
     constructor() {
         Axios.defaults.withCredentials = true;
         this.interceptToken(() => {
+            // console.log("LOGOUT")
             storageService.clearUserData()
             window.location.reload()
         })
@@ -130,10 +131,10 @@ export class BaseService {
                 error: null
             }
         } catch (error: any) {
-            let errorMessage = error.response?.data?.message || 'server_error';
-            if (typeof error.response?.data?.message !== 'string') {
-                errorMessage = 'server_error';
-            }
+            let errorMessage = error.response?.data || 'server_error';
+            // if (typeof error.response?.data?.message !== 'string') {
+            //     errorMessage = 'server_error';
+            // }
             if (!navigator.onLine) {
                 errorMessage = "connection_error"
             }

@@ -1,10 +1,13 @@
 package com.recrutement.modules.user;
 
 import com.recrutement.exceptions.DataNotFoundException;
+import com.recrutement.exceptions.InvalidPassword;
 import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.documents.services.IDocumentsService;
+import com.recrutement.modules.user.dto.ChangePasswordReq;
 import com.recrutement.modules.user.dto.UserDto;
+import com.recrutement.modules.user.service.IPasswordService;
 import com.recrutement.modules.user.service.IUserService;
 import com.recrutement.utils.UtilsService;
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +31,8 @@ public class UserController {
     private IDocumentsService documentsService;
     @Autowired
     private UtilsService utilsService;
+    @Autowired
+    private IPasswordService passwordService;
 
     @GetMapping("/{username}")
     public ResponseEntity<?> findByUsername(@PathVariable String username) {
@@ -91,6 +96,23 @@ public class UserController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new ResponseEntity<>("Changing cover failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordReq request) {
+        try {
+            Boolean response = passwordService.changePassword(request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (InvalidPassword e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>("Changing password failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

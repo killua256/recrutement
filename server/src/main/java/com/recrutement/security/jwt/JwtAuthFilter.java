@@ -24,7 +24,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-
     @Autowired
     private JwtProvider tokenProvider;
     @Autowired

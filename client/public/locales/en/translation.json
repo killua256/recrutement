@@ -5,5 +5,17 @@
         "jobs": "Jobs",
         "messages": "Messages",
         "notifications": "Notifications"
+    },
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "validation": {
+        "required": "{{field}} is required",
+        "arrayMinLength": "Please provide at least {{length}} {{field}}",
+        "number": "{{field}} must be a number",
+        "password": {
+            "pattern": "Password must have at least 8 characters, 1 uppercase, 1 lowercase character, 1 number and 1 special character",
+            "match": "New password and confirm password must match"
+        }
     }
 }

@@ -1,17 +1,21 @@
 package com.recrutement.modules.user.service;
 
 import com.recrutement.exceptions.DataNotFoundException;
+import com.recrutement.exceptions.InvalidPassword;
 import com.recrutement.exceptions.UserNotFoundException;
 import com.recrutement.modules.documents.Document;
 import com.recrutement.modules.user.User;
 import com.recrutement.modules.user.UserMapper;
 import com.recrutement.modules.user.UserRepository;
+import com.recrutement.modules.user.dto.ChangePasswordReq;
 import com.recrutement.modules.user.dto.UserDto;
+import com.recrutement.utils.PasswordHandler;
 import com.recrutement.utils.UtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,10 +1,13 @@
 package com.recrutement.utils;
 
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PasswordHandler {
 
     private final static Integer OTP_LENGTH = 6;
+    private final static String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
 
     public static String generateRandomToken(int length) {
         int leftLimit = 48; // numeral '0'
@@ -27,5 +30,28 @@ public class PasswordHandler {
         }
         return otp.toString();
     }
+
+    public static boolean isValidPassword(String password){
+        if(password.length() < 8){
+            return false;
+        }
+        /*boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+        for(int i=0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+            if(Character.isUpperCase(ch))
+                hasUpper = true;
+            else if(Character.isLowerCase(ch))
+                hasLower = true;
+            else if(Character.isDigit(ch))
+                hasDigit = true;
+            else
+                hasSpecial = true;
+        }
+        return hasUpper && hasLower && hasDigit && hasSpecial;*/
+        Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
 
 }

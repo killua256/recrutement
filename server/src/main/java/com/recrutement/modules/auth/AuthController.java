@@ -2,6 +2,7 @@ package com.recrutement.modules.auth;
 
 import com.recrutement.exceptions.*;
 import com.recrutement.modules.auth.httpRequest.SignupRequest;
+import com.recrutement.modules.user.dto.ChangePasswordReq;
 import com.recrutement.modules.user.dto.UserDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
