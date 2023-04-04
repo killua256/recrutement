@@ -32,6 +32,9 @@ public class JobOffer extends BaseEntity {
     @Column(name = "salary")
     private Double salary;
 
+    @Column(name = "is_open", columnDefinition = "boolean default false")
+    private boolean isOpen = false;
+
     @ManyToOne(optional = false)
     @JoinColumn(name="company_id", nullable=false, updatable=false)
     private Company company;

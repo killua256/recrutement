@@ -9,5 +9,6 @@ import java.util.Set;
 
 @Repository
 public interface ApplicationRepository extends BaseRepository<Application> {
-    Set<Application> findByJobOfferId(Long id);
+    Set<Application> findByJobOfferId(long id);
+    void deleteByApplicantId(long id);
 }

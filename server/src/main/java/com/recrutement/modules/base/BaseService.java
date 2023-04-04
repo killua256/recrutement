@@ -1,17 +1,22 @@
 package com.recrutement.modules.base;
 
-import com.google.common.collect.Sets;
+import com.querydsl.core.types.Predicate;
 import com.recrutement.DTOs.BaseDTO;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RequiredArgsConstructor
 public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseDTO> {
@@ -20,8 +25,8 @@ public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseD
     protected abstract BaseRepository<Type> getRepository();
     protected abstract BaseMapper<TypeDto, Type> getMapper();
 
-    private NoSuchElementException elementNotFoundHandler(Long id) {
-        return new NoSuchElementException("item of type "
+    private EntityNotFoundException elementNotFoundHandler(Long id) {
+        return new EntityNotFoundException("item of type "
                 + getType().getName() +" with id "
                 + id +" not found");
     }
@@ -54,9 +59,16 @@ public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseD
     }
 
     public Set<TypeDto> getAllDistinct(){
-        return Sets.newHashSet(getMapper()
+        return new HashSet<>(getMapper()
                 .toDtoList(getRepository()
                         .findAll()));
+    }
+
+    public Set<TypeDto> getAllDistinct(Predicate where) {
+        Iterator<Type> entitiesIterator = getRepository().findAll(where).iterator();
+        List<Type> entitiesList = StreamSupport.stream(Spliterators.spliteratorUnknownSize(entitiesIterator, Spliterator.ORDERED), true)
+                .collect(Collectors.toList());
+        return new HashSet<>(getMapper().toDtoList(entitiesList));
     }
 
     public TypeDto getOne(long id){
@@ -65,7 +77,7 @@ public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseD
 
     public Page<TypeDto> list(int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return getMapper().toPageDto(getRepository().findAll(pageable));
+        return getRepository().findAll(pageable).map(item -> getMapper().toDto(item));
     }
 
     public void delete(Long id){

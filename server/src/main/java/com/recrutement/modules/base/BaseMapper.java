@@ -1,6 +1,7 @@
 package com.recrutement.modules.base;
 
 import org.mapstruct.BeanMapping;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -20,19 +21,23 @@ import java.util.Set;
 
 public interface BaseMapper<D, E> {
 
+    @Named(value = "toEntity")
     E toEntity(D dto);
     @BeanMapping(ignoreByDefault = false)
+    @Named(value = "toDto")
     D toDto(E entity);
 
+    @IterableMapping(qualifiedByName = "toEntity")
     List<E> toEntityList(Collection<D> dtoList);
 
+    @IterableMapping(qualifiedByName = "toDto")
     List<D> toDtoList(Collection<E> entityList);
 
+    @IterableMapping(qualifiedByName = "toEntity")
     Set<E> toEntitySet(Collection<D> dtoList);
 
+    @IterableMapping(qualifiedByName = "toDto")
     Set<D> toDtoSet(Collection<E> entityList);
-
-    Page<D> toPageDto(Page<E> entityPage);
 
     @Named("partialUpdate")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

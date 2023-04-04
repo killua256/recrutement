@@ -14,4 +14,5 @@ public class JobOfferDTO extends BaseDTO {
     private String location;
     private Double salary;
     private Long companyId;
+    private boolean isOpen;
 }

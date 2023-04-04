@@ -31,4 +31,8 @@ public class ApplicationService extends BaseService<Application, ApplicationDTO>
     protected BaseMapper<ApplicationDTO, Application> getMapper() {
         return applicationMapper;
     }
+
+    public void deleteByApplicantId(long applicantId){
+        applicationRepository.deleteByApplicantId(applicantId);
+    }
 }
