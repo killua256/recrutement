@@ -8,9 +8,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CompanyDTO extends BaseDTO {
-
     private String name;
     private String description;
     private String address;
-
+    private Long userId;
 }

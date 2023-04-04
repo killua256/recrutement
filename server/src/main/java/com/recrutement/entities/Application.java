@@ -22,8 +22,8 @@ import lombok.Setter;
 public class Application extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "applicant_id", referencedColumnName = "id")
+    private Applicant applicant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", referencedColumnName = "id")

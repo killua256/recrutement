@@ -2,95 +2,53 @@ package com.recrutement.modules.jobOfferManagement;
 
 import com.recrutement.DTOs.ApplicationDTO;
 import com.recrutement.DTOs.JobOfferDTO;
-import com.recrutement.entities.Application;
-import com.recrutement.entities.Company;
-import com.recrutement.entities.JobOffer;
-import com.recrutement.modules.base.BaseMapper;
-import com.recrutement.modules.base.BaseRepository;
-import com.recrutement.modules.base.BaseService;
-import com.recrutement.modules.jobOfferManagement.mappers.ApplicationMapper;
-import com.recrutement.modules.jobOfferManagement.mappers.JobOfferMapper;
-import com.recrutement.repositories.ApplicationRepository;
-import com.recrutement.repositories.CompanyRepository;
-import com.recrutement.repositories.JobOfferRepository;
+import com.recrutement.services.ApplicantService;
+import com.recrutement.services.ApplicationService;
+import com.recrutement.services.CompanyService;
+import com.recrutement.services.JobOfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class JobOfferManagementService extends BaseService<JobOffer, JobOfferDTO> {
+public class JobOfferManagementService {
 
-    private final JobOfferRepository jobOfferRepository;
-    private final CompanyRepository companyRepository;
-    private final ApplicationRepository applicationRepository;
-    private final ApplicationMapper applicationMapper;
-    private final JobOfferMapper jobOfferMapper;
+    private final JobOfferService jobOfferService;
+    private final CompanyService companyService;
+    private final ApplicationService applicationService;
+    private final ApplicantService applicantService;
 
 
-    public JobOffer createJobOffer(JobOfferDTO jobDTO) {
+    public JobOfferDTO createJobOffer(JobOfferDTO jobDTO) {
         // Check if the company exists
-        Company company = companyRepository.findById(jobDTO.getCompanyId())
-                .orElseThrow(() -> new NullPointerException("Company not found"));
-
-        JobOffer jobOffer = jobOfferMapper.toEntity(jobDTO);
-        jobOffer.setCompany(company);
-
-        return jobOfferRepository.save(jobOffer);
+        if(jobDTO.getCompanyId() == null || !companyService.exists(jobDTO.getCompanyId()))
+            throw new NoSuchElementException("Company with id " + jobDTO.getCompanyId() + " Does not exist");
+        return jobOfferService.save(jobDTO);
     }
 
-    public JobOffer updateJobOffer(Long jobOfferId, JobOfferDTO jobDTO) {
-        JobOffer job = jobOfferRepository.findById(jobOfferId)
-                .orElseThrow(() -> new NullPointerException("Job offer not found"));
-
-        Company company = companyRepository.findById(jobDTO.getCompanyId())
-                .orElseThrow(() -> new NullPointerException("Company not found"));
-
-        job = jobOfferMapper.toEntity(jobDTO);
-        job.setCompany(company);
-
-        return jobOfferRepository.save(job);
+    public JobOfferDTO updateJobOffer(JobOfferDTO jobDTO) {
+        if(jobDTO.getId() == null || !jobOfferService.exists(jobDTO.getId()))
+            throw new NoSuchElementException("jobOfferExists with id " + jobDTO.getId() + " Does not exist");
+        return jobOfferService.update(jobDTO);
     }
 
-    public void deleteJobOffer(Long jobOfferId) {
-        jobOfferRepository.deleteById(jobOfferId);
+    public ApplicationDTO applyForJob(Long jobOfferId, ApplicationDTO applicationDTO) {
+        if(jobOfferService.exists(jobOfferId))
+            throw new NoSuchElementException("Job offer with id " +jobOfferId+" Does not exist");
+        if(applicantService.exists(applicationDTO.getApplicantId()))
+            throw new NoSuchElementException("Applicant with id " +applicationDTO.getApplicantId()+" Does not exist");
+
+        return applicationService.save(applicationDTO);
     }
 
-    public List<JobOffer> getAllJobOffers() {
-        return jobOfferRepository.findAll();
+    public Set<ApplicationDTO> getApplicationsByJobOfferId(Long jobOfferId) {
+        if(jobOfferService.exists(jobOfferId))
+            throw new NoSuchElementException("Job offer with id " +jobOfferId+" Does not exist");
+
+        return applicationService.getAllDistinct();
     }
 
-    public JobOffer getJobOfferById(Long jobOfferId) {
-        return jobOfferRepository.findById(jobOfferId)
-                .orElseThrow(() -> new NullPointerException("Job offer not found"));
-    }
-
-    public Application applyForJob(Long jobOfferId, ApplicationDTO applicationDTO) {
-        JobOffer jobOffer = jobOfferRepository.findById(jobOfferId)
-                .orElseThrow(() -> new NullPointerException("Job offer not found"));
-
-        Application application = applicationMapper.toEntity(applicationDTO);
-        application.setJobOffer(jobOffer);
-
-        return applicationRepository.save(application);
-    }
-
-    public Set<Application> getApplicationsByjobOfferId(Long jobOfferId) {
-        jobOfferRepository.findById(jobOfferId)
-                .orElseThrow(() -> new NullPointerException("Job offer not found"));
-
-        return applicationRepository.findByJobOfferId(jobOfferId);
-    }
-
-    @Override
-    protected BaseRepository<JobOffer> getRepository() {
-        return jobOfferRepository;
-    }
-
-    @Override
-    protected BaseMapper<JobOfferDTO, JobOffer> getMapper() {
-        return jobOfferMapper;
-    }
 }

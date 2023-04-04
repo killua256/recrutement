@@ -14,23 +14,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class InterviewDTO extends BaseDTO {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_id", referencedColumnName = "id")
-    private ApplicationDTO application;
-
-    @Column(name = "interview_date")
+    private Long applicationId;
     private Date interviewDate;
-
-    @Column(name = "interview_time")
     private Date interviewTime;
-
-    @Column(name = "interview_location")
     private String interviewLocation;
-
-    @Column(name = "interviewer_details", columnDefinition = "TEXT")
     private String interviewerDetails;
-
 }
 
 

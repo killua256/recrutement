@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ApplicationDTO extends BaseDTO {
+public class ApplicantDTO extends BaseDTO {
+    private String resumeUrl;
+    private String skills;
+    private String education;
     private Long userId;
-    private Long jobOfferId;
-    private String status;
-    private Long applicantId;
 }

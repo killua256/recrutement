@@ -54,6 +54,8 @@ public class User extends BaseEntity implements UserDetails {
     private Document avatar;
     @OneToOne(orphanRemoval = true)
     private Document cover;
+    @Column(name = "address")
+    private String address;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

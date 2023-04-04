@@ -1,4 +1,4 @@
-package com.recrutement.modules.jobOfferManagement.mappers;
+package com.recrutement.mappers;
 
 import com.recrutement.DTOs.JobOfferDTO;
 import com.recrutement.entities.JobOffer;

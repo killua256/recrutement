@@ -2,23 +2,27 @@ package com.recrutement.modules.base;
 
 import com.google.common.collect.Sets;
 import com.recrutement.DTOs.BaseDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
+@RequiredArgsConstructor
 public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseDTO> {
 
-    private Class<Type> TypeClass;
+    protected abstract Class<Type> getType();
     protected abstract BaseRepository<Type> getRepository();
     protected abstract BaseMapper<TypeDto, Type> getMapper();
 
-    private NullPointerException elementNotFoundHandler(Long id) {
-        return new NullPointerException("item of type "
-                + TypeClass.getName() +" with id "
+    private NoSuchElementException elementNotFoundHandler(Long id) {
+        return new NoSuchElementException("item of type "
+                + getType().getName() +" with id "
                 + id +" not found");
     }
 
@@ -28,44 +32,54 @@ public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseD
         return getMapper().toDto(type);
     }
 
-    protected TypeDto save(TypeDto dto) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Type type = getRepository().findById(dto.getId()).orElse(TypeClass.getDeclaredConstructor().newInstance());
-        return update(type, dto);
+    public TypeDto save(TypeDto dto) {
+        try{
+            Type type = getRepository().findById(dto.getId()).orElse(getType().getDeclaredConstructor().newInstance());
+            return update(type, dto);
+        }catch(NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
-    protected TypeDto update(long id, TypeDto dto){
+    public TypeDto update(TypeDto dto){
         Type type = getRepository().findById(dto.getId()).orElseThrow(()->
                 elementNotFoundHandler(dto.getId()));
         return update(type, dto);
     }
 
-    protected List<TypeDto> getAll(){
+
+    public List<TypeDto> getAll(){
         return getMapper().toDtoList(getRepository().findAll());
     }
 
-    protected Set<TypeDto> getAllDistinct(){
+    public Set<TypeDto> getAllDistinct(){
         return Sets.newHashSet(getMapper()
                 .toDtoList(getRepository()
                         .findAll()));
     }
 
-    protected TypeDto getOne(long id){
+    public TypeDto getOne(long id){
         return getMapper().toDto(getRepository().findById(id).orElseThrow(() -> elementNotFoundHandler(id)));
     }
 
-    protected Page<TypeDto> list(int pageNumber, int pageSize){
+    public Page<TypeDto> list(int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return getMapper().toPageDto(getRepository().findAll(pageable));
     }
 
-    protected void delete(Long id){
+    public void delete(Long id){
         getRepository().deleteById(id);
     }
 
-    protected void softDelete(Long id) {
+    public void softDelete(Long id) {
         getRepository().findById(id)
                 .orElseThrow(() -> elementNotFoundHandler(id));
 
         getRepository().deleteById(id);
+    }
+
+    public boolean exists(long id){
+        return getRepository().existsById(id);
     }
 }

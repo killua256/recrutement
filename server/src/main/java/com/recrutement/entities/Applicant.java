@@ -4,6 +4,7 @@ import com.recrutement.modules.base.BaseEntity;
 import com.recrutement.modules.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -14,16 +15,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "company")
-public class Company extends BaseEntity {
-
-    @Column(name = "company_name")
-    private String companyName;
-    @Column(name = "website_url")
-    private String websiteUrl;
-    @Column(name = "company_description")
-    private String companyDescription;
+@Table(name = "applicant")
+public class Applicant extends BaseEntity {
+    @Column(name = "resume_url")
+    private String resumeUrl;
+    @Column(name = "skills")
+    private String skills;
+    @Column(name = "education")
+    private String education;
     @OneToOne
     private User user;
-
 }
