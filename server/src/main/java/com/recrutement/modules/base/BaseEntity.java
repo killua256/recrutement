@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+
 import java.util.Date;
 
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
@@ -13,6 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Where(clause = "is_enabled = true")
 public class BaseEntity {
 
     @Id

@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class CompanyDTO extends BaseDTO {
-
-    private String name;
-    private String description;
-    private String address;
-
+public abstract class BaseDTO {
+    protected Long id;
+    protected Date createdAt;
+    protected Date updatedAt;
 }

@@ -6,6 +6,6 @@ import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface BaseRepository<T> extends JpaRepository<T, Long>,
+public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long>,
         QuerydslPredicateExecutor<T> {
 }

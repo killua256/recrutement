@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JobOfferDTO {
+public class JobOfferDTO extends BaseDTO {
     private String title;
     private String description;
     private String qualifications;

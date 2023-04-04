@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ApplicationDTO {
+public class ApplicationDTO extends BaseDTO {
 
     private User user;
     private JobOfferDTO jobOffer;

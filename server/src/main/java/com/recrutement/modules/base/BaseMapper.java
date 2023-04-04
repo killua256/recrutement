@@ -4,8 +4,12 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.springframework.data.domain.Page;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contract for a generic dto to entity mapper.
@@ -20,9 +24,15 @@ public interface BaseMapper<D, E> {
     @BeanMapping(ignoreByDefault = false)
     D toDto(E entity);
 
-    /*List<E> toEntity(List<D> dtoList);
+    List<E> toEntityList(Collection<D> dtoList);
 
-    List<D> toDto(List<E> entityList);*/
+    List<D> toDtoList(Collection<E> entityList);
+
+    Set<E> toEntitySet(Collection<D> dtoList);
+
+    Set<D> toDtoSet(Collection<E> entityList);
+
+    Page<D> toPageDto(Page<E> entityPage);
 
     @Named("partialUpdate")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

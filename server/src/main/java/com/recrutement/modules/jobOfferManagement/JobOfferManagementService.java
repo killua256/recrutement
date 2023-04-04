@@ -5,6 +5,9 @@ import com.recrutement.DTOs.JobOfferDTO;
 import com.recrutement.entities.Application;
 import com.recrutement.entities.Company;
 import com.recrutement.entities.JobOffer;
+import com.recrutement.modules.base.BaseMapper;
+import com.recrutement.modules.base.BaseRepository;
+import com.recrutement.modules.base.BaseService;
 import com.recrutement.modules.jobOfferManagement.mappers.ApplicationMapper;
 import com.recrutement.modules.jobOfferManagement.mappers.JobOfferMapper;
 import com.recrutement.repositories.ApplicationRepository;
@@ -18,7 +21,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class JobOfferManagementService {
+public class JobOfferManagementService extends BaseService<JobOffer, JobOfferDTO> {
 
     private final JobOfferRepository jobOfferRepository;
     private final CompanyRepository companyRepository;
@@ -79,5 +82,15 @@ public class JobOfferManagementService {
                 .orElseThrow(() -> new NullPointerException("Job offer not found"));
 
         return applicationRepository.findByJobOfferId(jobOfferId);
+    }
+
+    @Override
+    protected BaseRepository<JobOffer> getRepository() {
+        return jobOfferRepository;
+    }
+
+    @Override
+    protected BaseMapper<JobOfferDTO, JobOffer> getMapper() {
+        return jobOfferMapper;
     }
 }

@@ -1,5 +1,6 @@
 package com.recrutement.modules.verifToken;
 
+import com.recrutement.modules.base.BaseEntity;
 import lombok.*;
 import com.recrutement.modules.user.User;
 
@@ -12,11 +13,8 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VerifToken {
+public class VerifToken extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
     @Column
     private String value;
     @Column
