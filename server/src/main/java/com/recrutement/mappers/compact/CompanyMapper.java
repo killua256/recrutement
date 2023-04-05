@@ -1,4 +1,4 @@
-package com.recrutement.mappers;
+package com.recrutement.mappers.compact;
 
 import com.recrutement.dtos.compact.CompanyDTO;
 import com.recrutement.entities.Company;

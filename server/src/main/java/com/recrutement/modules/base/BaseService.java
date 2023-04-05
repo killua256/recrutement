@@ -19,11 +19,12 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RequiredArgsConstructor
-public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseDTO> {
+public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseDTO, TypeFullDto extends BaseDTO> {
 
     protected abstract Class<Type> getType();
     protected abstract BaseRepository<Type> getRepository();
     protected abstract BaseMapper<TypeDto, Type> getMapper();
+    protected abstract BaseMapper<TypeFullDto, Type> getFullMapper();
 
     private EntityNotFoundException elementNotFoundHandler(Long id) {
         return new EntityNotFoundException("item of type "

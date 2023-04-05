@@ -1,8 +1,10 @@
 package com.recrutement.services;
 
 import com.recrutement.dtos.compact.ApplicationDTO;
+import com.recrutement.dtos.full.ApplicationFullDTO;
 import com.recrutement.entities.Application;
-import com.recrutement.mappers.ApplicationMapper;
+import com.recrutement.mappers.compact.ApplicationMapper;
+import com.recrutement.mappers.full.ApplicationFullMapper;
 import com.recrutement.modules.base.BaseMapper;
 import com.recrutement.modules.base.BaseRepository;
 import com.recrutement.modules.base.BaseService;
@@ -12,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ApplicationService extends BaseService<Application, ApplicationDTO> {
+public class ApplicationService extends BaseService<Application, ApplicationDTO, ApplicationFullDTO> {
 
     private final ApplicationRepository applicationRepository;
     private final ApplicationMapper applicationMapper;
+    private final ApplicationFullMapper applicationFullMapper;
 
     @Override
     protected Class<Application> getType() {
@@ -30,6 +33,11 @@ public class ApplicationService extends BaseService<Application, ApplicationDTO>
     @Override
     protected BaseMapper<ApplicationDTO, Application> getMapper() {
         return applicationMapper;
+    }
+
+    @Override
+    protected BaseMapper<ApplicationFullDTO, Application> getFullMapper() {
+        return applicationFullMapper;
     }
 
     public void deleteApplicationFromJob(long applicantId, long jobOfferId){

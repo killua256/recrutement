@@ -1,8 +1,10 @@
 package com.recrutement.services;
 
 import com.recrutement.dtos.compact.CompanyDTO;
+import com.recrutement.dtos.full.CompanyFullDTO;
 import com.recrutement.entities.Company;
-import com.recrutement.mappers.CompanyMapper;
+import com.recrutement.mappers.compact.CompanyMapper;
+import com.recrutement.mappers.full.CompanyFullMapper;
 import com.recrutement.modules.base.BaseMapper;
 import com.recrutement.modules.base.BaseRepository;
 import com.recrutement.modules.base.BaseService;
@@ -12,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyService extends BaseService<Company, CompanyDTO> {
+public class CompanyService extends BaseService<Company, CompanyDTO, CompanyFullDTO> {
 
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
+    private final CompanyFullMapper companyFullMapper;
 
 
     @Override
@@ -31,6 +34,11 @@ public class CompanyService extends BaseService<Company, CompanyDTO> {
     @Override
     protected BaseMapper<CompanyDTO, Company> getMapper() {
         return companyMapper;
+    }
+
+    @Override
+    protected BaseMapper<CompanyFullDTO, Company> getFullMapper() {
+        return companyFullMapper;
     }
 
 
