@@ -1,6 +1,6 @@
 package com.recrutement.services;
 
-import com.recrutement.DTOs.ApplicationDTO;
+import com.recrutement.dtos.compact.ApplicationDTO;
 import com.recrutement.entities.Application;
 import com.recrutement.mappers.ApplicationMapper;
 import com.recrutement.modules.base.BaseMapper;

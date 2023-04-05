@@ -1,6 +1,6 @@
 package com.recrutement.modules.management.controllers;
 
-import com.recrutement.DTOs.JobOfferDTO;
+import com.recrutement.dtos.compact.JobOfferDTO;
 import com.recrutement.modules.management.services.ApplicationManagementService;
 import com.recrutement.modules.management.services.JobOfferManagementService;
 import com.recrutement.utils.UtilsService;

@@ -1,9 +1,6 @@
-package com.recrutement.DTOs;
+package com.recrutement.dtos.full;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.recrutement.dtos.BaseDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InterviewDTO extends BaseDTO {
+public class InterviewFullDTO extends BaseDTO {
     private Long applicationId;
     private Date interviewDate;
     private Date interviewTime;

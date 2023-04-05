@@ -1,8 +1,8 @@
 package com.recrutement.modules.management.services;
 
 import com.querydsl.core.BooleanBuilder;
-import com.recrutement.DTOs.ApplicationDTO;
-import com.recrutement.DTOs.JobOfferDTO;
+import com.recrutement.dtos.compact.ApplicationDTO;
+import com.recrutement.dtos.compact.JobOfferDTO;
 import com.recrutement.entities.QApplication;
 import com.recrutement.enums.ApplicationStatus;
 import com.recrutement.modules.management.exceptions.AlreadyAppliedToJobOfferException;

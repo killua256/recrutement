@@ -1,4 +1,4 @@
-package com.recrutement.DTOs;
+package com.recrutement.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

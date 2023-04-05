@@ -1,6 +1,6 @@
 package com.recrutement.mappers;
 
-import com.recrutement.DTOs.InterviewDTO;
+import com.recrutement.dtos.compact.InterviewDTO;
 import com.recrutement.entities.Interview;
 import com.recrutement.modules.base.BaseMapper;
 import org.mapstruct.Mapper;

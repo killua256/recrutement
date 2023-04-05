@@ -1,7 +1,7 @@
 package com.recrutement.modules.base;
 
 import com.querydsl.core.types.Predicate;
-import com.recrutement.DTOs.BaseDTO;
+import com.recrutement.dtos.BaseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

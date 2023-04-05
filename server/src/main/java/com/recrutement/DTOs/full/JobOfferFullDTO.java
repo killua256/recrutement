@@ -1,5 +1,7 @@
-package com.recrutement.DTOs;
+package com.recrutement.dtos.full;
 
+import com.recrutement.dtos.BaseDTO;
+import com.recrutement.dtos.compact.CompanyDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,12 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JobOfferDTO extends BaseDTO {
+public class JobOfferFullDTO extends BaseDTO {
     private String title;
     private String description;
     private String qualifications;
     private String location;
     private Double salary;
-    private Long companyId;
+    private CompanyDTO company;
     private boolean isOpen;
 }

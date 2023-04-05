@@ -1,5 +1,6 @@
-package com.recrutement.DTOs;
+package com.recrutement.dtos.compact;
 
+import com.recrutement.dtos.BaseDTO;
 import com.recrutement.enums.ApplicationStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

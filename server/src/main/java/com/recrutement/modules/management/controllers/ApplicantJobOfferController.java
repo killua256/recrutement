@@ -1,13 +1,12 @@
 package com.recrutement.modules.management.controllers;
 
-import com.recrutement.DTOs.ApplicationDTO;
+import com.recrutement.dtos.compact.ApplicationDTO;
 import com.recrutement.modules.management.exceptions.AlreadyAppliedToJobOfferException;
 import com.recrutement.modules.management.exceptions.JobOfferClosedException;
 import com.recrutement.modules.management.services.ApplicationManagementService;
 import com.recrutement.modules.management.services.JobOfferManagementService;
 import com.recrutement.utils.UtilsService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
