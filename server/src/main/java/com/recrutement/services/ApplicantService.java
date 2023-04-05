@@ -31,4 +31,8 @@ public class ApplicantService extends BaseService<Applicant, ApplicantDTO> {
     protected BaseMapper<ApplicantDTO, Applicant> getMapper() {
         return applicantMapper;
     }
+
+    public ApplicantDTO getApplicantByUserId(long userId){
+        return applicantMapper.toDto(applicantRepository.getByUserId(userId));
+    }
 }

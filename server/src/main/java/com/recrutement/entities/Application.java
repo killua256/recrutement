@@ -1,5 +1,6 @@
 package com.recrutement.entities;
 
+import com.recrutement.enums.ApplicationStatus;
 import com.recrutement.modules.base.BaseEntity;
 import com.recrutement.modules.user.User;
 import jakarta.persistence.Basic;
@@ -30,7 +31,7 @@ public class Application extends BaseEntity {
     private JobOffer jobOffer;
 
     @Column(name = "status")
-    private String status;
+    private ApplicationStatus status;
 
     @Lob
     @Basic(fetch=FetchType.LAZY)

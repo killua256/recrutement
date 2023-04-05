@@ -1,10 +1,12 @@
-package com.recrutement.modules.jobOfferManagement;
+package com.recrutement.modules.management.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.recrutement.DTOs.ApplicationDTO;
 import com.recrutement.DTOs.JobOfferDTO;
 import com.recrutement.entities.QApplication;
-import com.recrutement.modules.jobOfferManagement.exceptions.JobOfferClosedException;
+import com.recrutement.enums.ApplicationStatus;
+import com.recrutement.modules.management.exceptions.AlreadyAppliedToJobOfferException;
+import com.recrutement.modules.management.exceptions.JobOfferClosedException;
 import com.recrutement.services.ApplicantService;
 import com.recrutement.services.ApplicationService;
 import com.recrutement.services.JobOfferService;
@@ -22,13 +24,18 @@ public class ApplicationManagementService {
     private final ApplicationService applicationService;
     private final ApplicantService applicantService;
 
-    public ApplicationDTO applyForJob(long jobOfferId, ApplicationDTO applicationDTO) throws JobOfferClosedException {
+    public ApplicationDTO applyForJob(long jobOfferId, long applicantId) throws JobOfferClosedException, AlreadyAppliedToJobOfferException {
         JobOfferDTO jobOffer = jobOfferService.getOne(jobOfferId);
         if(!jobOffer.isOpen())
             throw new JobOfferClosedException("Job offer with id " + jobOfferId +" is closed");
-        if(applicantService.exists(applicationDTO.getApplicantId()))
-            throw new EntityNotFoundException("Applicant with id " + applicationDTO.getApplicantId() + " Does not exist");
-
+        if(applicantService.exists(applicantId))
+            throw new EntityNotFoundException("Applicant with id " + applicantId + " Does not exist");
+        if (applicationService.exists(jobOfferId, applicantId))
+            throw new AlreadyAppliedToJobOfferException();
+        ApplicationDTO applicationDTO = new ApplicationDTO();
+        applicationDTO.setApplicantId(applicantId);
+        applicationDTO.setJobOfferId(jobOfferId);
+        applicationDTO.setStatus(ApplicationStatus.PENDING);
         return applicationService.save(applicationDTO);
     }
 
@@ -39,7 +46,7 @@ public class ApplicationManagementService {
         if(applicantService.exists(applicantId))
             throw new EntityNotFoundException("Applicant with id " + applicantId + " Does not exist");
 
-        applicationService.deleteByApplicantId(applicantId);
+        applicationService.deleteApplicationFromJob(applicantId, jobOfferId);
     }
 
     public Set<ApplicationDTO> getApplicationsByJobOfferId(long jobOfferId) {
@@ -48,6 +55,13 @@ public class ApplicationManagementService {
         BooleanBuilder where = new BooleanBuilder();
         QApplication qApplication = QApplication.application;
         where.and(qApplication.jobOffer.id.eq(jobOfferId));
+        return applicationService.getAllDistinct(where);
+    }
+
+    public Set<ApplicationDTO> getApplications(long applicantId) {
+        BooleanBuilder where = new BooleanBuilder();
+        QApplication qApplication = QApplication.application;
+        where.and(qApplication.id.eq(applicantId));
         return applicationService.getAllDistinct(where);
     }
 }

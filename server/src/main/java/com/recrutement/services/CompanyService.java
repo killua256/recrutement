@@ -1,5 +1,6 @@
 package com.recrutement.services;
 
+import com.recrutement.DTOs.ApplicantDTO;
 import com.recrutement.DTOs.CompanyDTO;
 import com.recrutement.entities.Company;
 import com.recrutement.mappers.CompanyMapper;
@@ -31,5 +32,10 @@ public class CompanyService extends BaseService<Company, CompanyDTO> {
     @Override
     protected BaseMapper<CompanyDTO, Company> getMapper() {
         return companyMapper;
+    }
+
+
+    public CompanyDTO getCompanyByUserId(long userId){
+        return companyMapper.toDto(companyRepository.getByUserId(userId));
     }
 }

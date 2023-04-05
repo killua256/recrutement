@@ -32,7 +32,15 @@ public class ApplicationService extends BaseService<Application, ApplicationDTO>
         return applicationMapper;
     }
 
-    public void deleteByApplicantId(long applicantId){
-        applicationRepository.deleteByApplicantId(applicantId);
+    public void deleteApplicationFromJob(long applicantId, long jobOfferId){
+        applicationRepository.deleteByApplicantIdAndJobOfferId(applicantId, jobOfferId);
+    }
+
+    public ApplicationDTO getApplication(long jobOfferId, long applicantId){
+        return applicationMapper.toDto(applicationRepository.findByApplicantIdAndJobOfferId(jobOfferId, applicantId));
+    }
+
+    public boolean exists(long jobOfferId, long applicantId){
+        return applicationRepository.existsByApplicantIdAndJobOfferId(jobOfferId, applicantId);
     }
 }

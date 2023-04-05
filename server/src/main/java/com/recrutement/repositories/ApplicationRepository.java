@@ -10,5 +10,7 @@ import java.util.Set;
 @Repository
 public interface ApplicationRepository extends BaseRepository<Application> {
     Set<Application> findByJobOfferId(long id);
-    void deleteByApplicantId(long id);
+    void deleteByApplicantIdAndJobOfferId(long applicantId, long jobOfferId);
+    Application findByApplicantIdAndJobOfferId(long applicantId, long jobOfferId);
+    boolean existsByApplicantIdAndJobOfferId(long applicantId, long jobOfferId);
 }

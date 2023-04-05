@@ -1,4 +1,4 @@
-package com.recrutement.modules.jobOfferManagement.exceptions;
+package com.recrutement.modules.management.exceptions;
 
 public class JobOfferClosedException extends Exception {
     public JobOfferClosedException(String msg){

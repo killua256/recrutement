@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ApplicantRepository extends BaseRepository<Applicant> {
+    Applicant getByUserId(long userId);
 }
