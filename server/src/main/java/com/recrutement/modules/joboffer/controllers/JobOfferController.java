@@ -1,6 +1,8 @@
 package com.recrutement.modules.joboffer.controllers;
 
+import com.recrutement.dtos.compact.ApplicationDTO;
 import com.recrutement.dtos.compact.JobOfferDTO;
+import com.recrutement.enums.ApplicationStatus;
 import com.recrutement.modules.joboffer.services.ApplicationManagementService;
 import com.recrutement.modules.joboffer.services.JobOfferManagementService;
 import com.recrutement.utils.UtilsService;
@@ -71,6 +73,48 @@ public class JobOfferController {
             jobOfferManagementService.getJobOffers(isOpen, companyId);
             return ResponseEntity.ok(jobOffers);
         } catch (EntityNotFoundException | AccessDeniedException e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/application/{id}")
+    public ResponseEntity<?> getApplication(@PathVariable(required = true) Long id) {
+        try{
+            ApplicationDTO result = applicationManagementService.getApplication(id, utilsService.getApplicantId());
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/application/{id}")
+    public ResponseEntity<?> getApplicationStatus(@PathVariable(required = true) Long id) {
+        try{
+            ApplicationStatus result = applicationManagementService.getApplicationStatus(id, utilsService.getApplicantId());
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/applications")
+    public ResponseEntity<?> getApplications() {
+        try{
+            Set<ApplicationDTO> results = applicationManagementService.getApplications(utilsService.getApplicantId());
+            return ResponseEntity.ok(results);
+        } catch (EntityNotFoundException e){
             logger.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e){

@@ -1,6 +1,7 @@
 package com.recrutement.modules.joboffer.controllers;
 
 import com.recrutement.dtos.compact.ApplicationDTO;
+import com.recrutement.enums.ApplicationStatus;
 import com.recrutement.modules.joboffer.exceptions.AlreadyAppliedToJobOfferException;
 import com.recrutement.modules.joboffer.exceptions.JobOfferClosedException;
 import com.recrutement.modules.joboffer.services.ApplicationManagementService;
@@ -12,12 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
-import java.util.Set;
 
 public class ApplicantJobOfferController extends JobOfferController {
 
@@ -52,20 +51,6 @@ public class ApplicantJobOfferController extends JobOfferController {
         }catch (JobOfferClosedException e){
             logger.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (EntityNotFoundException e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/applications")
-    public ResponseEntity<?> getApplications() {
-        try{
-            Set<ApplicationDTO> results = applicationManagementService.getApplications(utilsService.getApplicantId());
-            return ResponseEntity.ok(results);
         } catch (EntityNotFoundException e){
             logger.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

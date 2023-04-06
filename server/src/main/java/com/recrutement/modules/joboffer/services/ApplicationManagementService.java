@@ -2,16 +2,20 @@ package com.recrutement.modules.joboffer.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.recrutement.dtos.compact.ApplicationDTO;
+import com.recrutement.dtos.compact.CompanyDTO;
 import com.recrutement.dtos.compact.JobOfferDTO;
+import com.recrutement.entities.Application;
 import com.recrutement.entities.QApplication;
 import com.recrutement.enums.ApplicationStatus;
 import com.recrutement.modules.joboffer.exceptions.AlreadyAppliedToJobOfferException;
 import com.recrutement.modules.joboffer.exceptions.JobOfferClosedException;
 import com.recrutement.services.ApplicantService;
 import com.recrutement.services.ApplicationService;
+import com.recrutement.services.CompanyService;
 import com.recrutement.services.JobOfferService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -64,4 +68,26 @@ public class ApplicationManagementService {
         where.and(qApplication.id.eq(applicantId));
         return applicationService.getAllDistinct(where);
     }
+
+    public ApplicationDTO getApplication(long applicationId, long applicantId) {
+        BooleanBuilder where = new BooleanBuilder();
+        QApplication qApplication = QApplication.application;
+        where.and(qApplication.id.eq(applicantId));
+        where.and(qApplication.id.eq(applicationId));
+        return applicationService.getOne(where);
+    }
+
+    public ApplicationStatus getApplicationStatus(long applicationId, long applicantId) {
+        return applicationService.getApplicationStatus(applicationId, applicantId);
+    }
+
+
+    public ApplicationDTO changeApplicationStatus(long applicationId, ApplicationStatus status, long companyId){
+        ApplicationDTO application = applicationService.getOne(applicationId);
+        if(!application.getCompanyId().equals(companyId))
+            throw new AccessDeniedException(String.format("Application %o with id %o does not belong to company",applicationId, companyId));
+        application.setStatus(status);
+        return applicationService.save(application);
+    }
+
 }

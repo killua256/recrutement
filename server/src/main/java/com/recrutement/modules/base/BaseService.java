@@ -1,6 +1,8 @@
 package com.recrutement.modules.base;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.recrutement.dtos.BaseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +28,16 @@ public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseD
     protected abstract BaseMapper<TypeDto, Type> getMapper();
     protected abstract BaseMapper<TypeFullDto, Type> getFullMapper();
 
-    private EntityNotFoundException elementNotFoundHandler(Long id) {
+    protected EntityNotFoundException elementNotFoundHandler(Long id) {
         return new EntityNotFoundException("item of type "
                 + getType().getName() +" with id "
                 + id +" not found");
+    }
+
+    protected EntityNotFoundException elementNotFoundHandler(BooleanBuilder where) {
+        return new EntityNotFoundException("item of type "
+                + getType().getName() + " where: "
+                + where.getValue().toString() +" not found");
     }
 
     private TypeDto update(Type type,TypeDto dto){
@@ -74,6 +82,10 @@ public abstract class BaseService<Type extends BaseEntity, TypeDto extends BaseD
 
     public TypeDto getOne(long id){
         return getMapper().toDto(getRepository().findById(id).orElseThrow(() -> elementNotFoundHandler(id)));
+    }
+
+    public TypeDto getOne(BooleanBuilder where){
+        return getMapper().toDto(getRepository().findOne(where).orElseThrow(() -> elementNotFoundHandler(where)));
     }
 
     public Page<TypeDto> list(int pageNumber, int pageSize){

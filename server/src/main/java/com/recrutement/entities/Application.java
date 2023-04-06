@@ -27,6 +27,10 @@ public class Application extends BaseEntity {
     private Applicant applicant;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    private Company company;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", referencedColumnName = "id")
     private JobOffer jobOffer;
 

@@ -13,4 +13,5 @@ public class ApplicationDTO extends BaseDTO {
     private Long jobOfferId;
     private ApplicationStatus status;
     private Long applicantId;
+    private Long companyId;
 }

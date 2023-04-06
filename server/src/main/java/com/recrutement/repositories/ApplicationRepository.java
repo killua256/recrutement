@@ -2,6 +2,7 @@ package com.recrutement.repositories;
 
 import com.recrutement.entities.Application;
 import com.recrutement.entities.JobOffer;
+import com.recrutement.enums.ApplicationStatus;
 import com.recrutement.modules.base.BaseRepository;
 import org.springframework.stereotype.Repository;
 
