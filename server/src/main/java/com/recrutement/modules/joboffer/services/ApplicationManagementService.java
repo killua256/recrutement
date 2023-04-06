@@ -1,12 +1,12 @@
-package com.recrutement.modules.management.services;
+package com.recrutement.modules.joboffer.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.recrutement.dtos.compact.ApplicationDTO;
 import com.recrutement.dtos.compact.JobOfferDTO;
 import com.recrutement.entities.QApplication;
 import com.recrutement.enums.ApplicationStatus;
-import com.recrutement.modules.management.exceptions.AlreadyAppliedToJobOfferException;
-import com.recrutement.modules.management.exceptions.JobOfferClosedException;
+import com.recrutement.modules.joboffer.exceptions.AlreadyAppliedToJobOfferException;
+import com.recrutement.modules.joboffer.exceptions.JobOfferClosedException;
 import com.recrutement.services.ApplicantService;
 import com.recrutement.services.ApplicationService;
 import com.recrutement.services.JobOfferService;

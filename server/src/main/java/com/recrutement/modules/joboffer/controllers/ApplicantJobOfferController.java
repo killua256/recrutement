@@ -1,10 +1,10 @@
-package com.recrutement.modules.management.controllers;
+package com.recrutement.modules.joboffer.controllers;
 
 import com.recrutement.dtos.compact.ApplicationDTO;
-import com.recrutement.modules.management.exceptions.AlreadyAppliedToJobOfferException;
-import com.recrutement.modules.management.exceptions.JobOfferClosedException;
-import com.recrutement.modules.management.services.ApplicationManagementService;
-import com.recrutement.modules.management.services.JobOfferManagementService;
+import com.recrutement.modules.joboffer.exceptions.AlreadyAppliedToJobOfferException;
+import com.recrutement.modules.joboffer.exceptions.JobOfferClosedException;
+import com.recrutement.modules.joboffer.services.ApplicationManagementService;
+import com.recrutement.modules.joboffer.services.JobOfferManagementService;
 import com.recrutement.utils.UtilsService;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;

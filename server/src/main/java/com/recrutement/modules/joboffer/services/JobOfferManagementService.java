@@ -1,4 +1,4 @@
-package com.recrutement.modules.management.services;
+package com.recrutement.modules.joboffer.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.recrutement.dtos.compact.JobOfferDTO;

@@ -1,8 +1,8 @@
-package com.recrutement.modules.management.controllers;
+package com.recrutement.modules.joboffer.controllers;
 
 import com.recrutement.dtos.compact.JobOfferDTO;
-import com.recrutement.modules.management.services.ApplicationManagementService;
-import com.recrutement.modules.management.services.JobOfferManagementService;
+import com.recrutement.modules.joboffer.services.ApplicationManagementService;
+import com.recrutement.modules.joboffer.services.JobOfferManagementService;
 import com.recrutement.utils.UtilsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
